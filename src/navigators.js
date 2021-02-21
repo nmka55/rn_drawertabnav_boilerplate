@@ -1,11 +1,27 @@
 import React from "react";
-
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { connect } from "react-redux";
 
-import { TabA, TabADetails } from "./TabA";
-import { TabB, TabBDetails } from "./TabB";
+import TabA from "./pages/home/tabA";
+import TabADetails from "./pages/home/tabADetails";
+import { TabB, TabBDetails } from "./pages/home/tabB";
+import Login from "./pages/login/login";
+import NotificationsScreen from "./pages/notificationsScreen/notificationScreen";
+
+const Drawer = createDrawerNavigator();
+
+const LoginStackNav = createStackNavigator();
+function LoginStack() {
+  return (
+    <LoginStackNav.Navigator initialRouteName="Login">
+      <LoginStackNav.Screen name="Login" component={Login} />
+    </LoginStackNav.Navigator>
+  );
+}
 
 const HomeTabAStackNav = createStackNavigator();
 function HomeTabAStack() {
@@ -54,7 +70,7 @@ function HomeTabBStack() {
 }
 
 const HomeTabNav = createBottomTabNavigator();
-export default function HomeTab() {
+function HomeTab() {
   return (
     <HomeTabNav.Navigator
       tabBarOptions={{
@@ -86,3 +102,48 @@ export default function HomeTab() {
     </HomeTabNav.Navigator>
   );
 }
+
+const NotificationStackNav = createStackNavigator();
+function NotificationsStack() {
+  return (
+    <NotificationStackNav.Navigator>
+      <NotificationStackNav.Screen
+        name="Notfications"
+        component={NotificationsScreen}
+        options={({ navigation }) => ({
+          headerLeft: () => (
+            <MaterialCommunityIcons
+              name="menu"
+              size={24}
+              style={{ marginLeft: 10 }}
+              onPress={() => navigation.toggleDrawer()}
+            />
+          ),
+        })}
+      />
+    </NotificationStackNav.Navigator>
+  );
+}
+
+function RootContainer({ user }) {
+  if (user?.loggedin)
+    return (
+      <NavigationContainer>
+        <Drawer.Navigator initialRouteName="Home">
+          <Drawer.Screen name="Home" component={HomeTab} />
+          <Drawer.Screen name="Notifications" component={NotificationsStack} />
+        </Drawer.Navigator>
+      </NavigationContainer>
+    );
+  else
+    return (
+      <NavigationContainer>
+        <LoginStack />
+      </NavigationContainer>
+    );
+}
+
+const mapStateToProps = (state) => {
+  return { user: state?.user };
+};
+export default connect(mapStateToProps)(RootContainer);
