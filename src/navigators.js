@@ -1,16 +1,27 @@
-import React from "react";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createStackNavigator } from "@react-navigation/stack";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import { connect } from "react-redux";
+import {TabB, TabBDetails} from './pages/home/tabB';
 
-import TabA from "./pages/home/tabA";
-import TabADetails from "./pages/home/tabADetails";
-import { TabB, TabBDetails } from "./pages/home/tabB";
-import Login from "./pages/login/login";
-import NotificationsScreen from "./pages/notificationsScreen/notificationScreen";
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Login from './pages/login/login';
+import {NavigationContainer} from '@react-navigation/native';
+import NotificationsScreen from './pages/notificationsScreen/notificationScreen';
+import React from 'react';
+import TabA from './pages/home/tabA';
+import TabADetails from './pages/home/tabADetails';
+import {connect} from 'react-redux';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import {createStackNavigator} from '@react-navigation/stack';
+
+const drawerButton = navigation => {
+  return (
+    <Icon
+      name="menu"
+      size={24}
+      style={{marginLeft: 10}}
+      onPress={() => navigation.toggleDrawer()}
+    />
+  );
+};
 
 const Drawer = createDrawerNavigator();
 
@@ -30,15 +41,8 @@ function HomeTabAStack() {
       <HomeTabAStackNav.Screen
         name="TabA"
         component={TabA}
-        options={({ navigation }) => ({
-          headerLeft: () => (
-            <MaterialCommunityIcons
-              name="menu"
-              size={24}
-              style={{ marginLeft: 10 }}
-              onPress={() => navigation.toggleDrawer()}
-            />
-          ),
+        options={({navigation}) => ({
+          headerLeft: () => drawerButton(navigation),
         })}
       />
       <HomeTabAStackNav.Screen name="TabADetails" component={TabADetails} />
@@ -53,15 +57,8 @@ function HomeTabBStack() {
       <HomeTabBStackNav.Screen
         name="TabB"
         component={TabB}
-        options={({ navigation }) => ({
-          headerLeft: () => (
-            <MaterialCommunityIcons
-              name="menu"
-              size={24}
-              style={{ marginLeft: 10 }}
-              onPress={() => navigation.toggleDrawer()}
-            />
-          ),
+        options={({navigation}) => ({
+          headerLeft: () => drawerButton(navigation),
         })}
       />
       <HomeTabBStackNav.Screen name="TabBDetails" component={TabBDetails} />
@@ -74,29 +71,26 @@ function HomeTab() {
   return (
     <HomeTabNav.Navigator
       tabBarOptions={{
-        activeTintColor: "tomato",
-        inactiveTintColor: "gray",
+        activeTintColor: 'tomato',
+        inactiveTintColor: 'gray',
       }}
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
+      screenOptions={({route}) => ({
+        tabBarIcon: ({focused, color, size}) => {
           let iconName;
 
           switch (route.name) {
-            case "Tab A":
-              iconName = focused ? "home-circle" : "home-circle-outline";
+            case 'Tab A':
+              iconName = focused ? 'home-circle' : 'home-circle-outline';
               break;
-            case "Tab B":
-              iconName = focused ? "account-circle" : "account-circle-outline";
+            case 'Tab B':
+              iconName = focused ? 'account-circle' : 'account-circle-outline';
               break;
             default:
               break;
           }
-          return (
-            <MaterialCommunityIcons name={iconName} size={size} color={color} />
-          );
+          return <Icon name={iconName} size={size} color={color} />;
         },
-      })}
-    >
+      })}>
       <HomeTabNav.Screen name="Tab A" component={HomeTabAStack} />
       <HomeTabNav.Screen name="Tab B" component={HomeTabBStack} />
     </HomeTabNav.Navigator>
@@ -110,22 +104,15 @@ function NotificationsStack() {
       <NotificationStackNav.Screen
         name="Notfications"
         component={NotificationsScreen}
-        options={({ navigation }) => ({
-          headerLeft: () => (
-            <MaterialCommunityIcons
-              name="menu"
-              size={24}
-              style={{ marginLeft: 10 }}
-              onPress={() => navigation.toggleDrawer()}
-            />
-          ),
+        options={({navigation}) => ({
+          headerLeft: () => drawerButton(navigation),
         })}
       />
     </NotificationStackNav.Navigator>
   );
 }
 
-function RootContainer({ user }) {
+function RootContainer({user}) {
   if (user?.loggedin)
     return (
       <NavigationContainer>
@@ -143,7 +130,7 @@ function RootContainer({ user }) {
     );
 }
 
-const mapStateToProps = (state) => {
-  return { user: state?.user };
+const mapStateToProps = state => {
+  return {user: state?.user};
 };
 export default connect(mapStateToProps)(RootContainer);

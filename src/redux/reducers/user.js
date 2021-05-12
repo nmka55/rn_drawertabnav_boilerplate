@@ -1,4 +1,4 @@
-import { USER_LOGIN, USER_LOGOUT } from "../constants";
+import {USER_LOGIN, USER_LOGOUT} from '../constants';
 
 const initialState = {
   loggedin: false,
@@ -11,7 +11,7 @@ const userInfo = (state = initialState, action) => {
       return {
         ...state,
         loggedin: true,
-        userData: { ...action.userData },
+        userData: {...action.userData},
       };
     case USER_LOGOUT:
       return {
