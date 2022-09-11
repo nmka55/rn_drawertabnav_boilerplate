@@ -1,26 +1,24 @@
-import {USER_LOGIN, USER_LOGOUT} from '../constants';
+import {userLogin, userLogout} from '@app/redux/actions';
+import {createReducer} from '@reduxjs/toolkit';
 
 const initialState = {
   loggedin: false,
   userData: {},
 };
 
-const userInfo = (state = initialState, action) => {
-  switch (action.type) {
-    case USER_LOGIN:
+export default createReducer(initialState, builder => {
+  builder
+    .addCase(userLogin, (state, action) => {
       return {
         ...state,
         loggedin: true,
-        userData: {...action.userData},
+        userData: {...action.payload},
       };
-    case USER_LOGOUT:
-      return {
-        loggedin: false,
-        userData: {},
-      };
-    default:
+    })
+    .addCase(userLogout, () => {
+      return initialState;
+    })
+    .addDefaultCase(state => {
       return state;
-  }
-};
-
-export default userInfo;
+    });
+});

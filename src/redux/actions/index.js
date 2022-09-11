@@ -1,13 +1,5 @@
-import {USER_LOGIN, USER_LOGOUT} from '../constants';
+import {USER_LOGIN, USER_LOGOUT} from '@app/redux/constants';
+import {createAction} from '@reduxjs/toolkit';
 
-export function userLogin(username, password) {
-  return dispatch => {
-    dispatch({type: USER_LOGIN, userData: {username, password}});
-  };
-}
-
-export function userLogout() {
-  return dispatch => {
-    dispatch({type: USER_LOGOUT});
-  };
-}
+export const userLogin = createAction(USER_LOGIN);
+export const userLogout = createAction(USER_LOGOUT);

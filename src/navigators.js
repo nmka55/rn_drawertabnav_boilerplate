@@ -1,146 +1,149 @@
-import { TabB, TabBDetails } from "./pages/home/tabB";
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Login from '@app/screens/login/login';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import NotificationsScreen from '@app/screens/notificationsScreen/notificationScreen';
+import React from 'react';
+import TabA from '@app/screens/home/tabA';
+import TabADetails from '@app/screens/home/tabADetails';
+import {TabB, TabBDetails} from '@app/screens/home/tabB';
+import {useSelector} from 'react-redux';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {Pressable} from 'react-native';
 
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import Login from "./pages/login/login";
-import { NavigationContainer } from "@react-navigation/native";
-import NotificationsScreen from "./pages/notificationsScreen/notificationScreen";
-import React from "react";
-import TabA from "./pages/home/tabA";
-import TabADetails from "./pages/home/tabADetails";
-import { connect } from "react-redux";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import { createStackNavigator } from "@react-navigation/stack";
+const drawerButton = () => {
+  const navigation = useNavigation();
 
-const drawerButton = (navigation) => {
   return (
-    <Icon
-      name="menu"
-      size={24}
-      style={{ marginLeft: 10 }}
-      onPress={() => navigation.toggleDrawer()}
-    />
+    <Pressable onPress={() => navigation.toggleDrawer()}>
+      <Icon name="menu" size={24} />
+    </Pressable>
   );
 };
 
-const Drawer = createDrawerNavigator();
+const initialScreenProps = () => ({
+  headerLeft: () => drawerButton(),
+});
 
-const LoginStackNav = createStackNavigator();
 function LoginStack() {
+  const {Navigator, Screen} = createNativeStackNavigator();
+
   return (
-    <LoginStackNav.Navigator initialRouteName="Login">
-      <LoginStackNav.Screen
+    <Navigator initialRouteName="Login">
+      <Screen
         name="Login"
         component={Login}
         screenOptions={{
           headerShown: false,
         }}
       />
-    </LoginStackNav.Navigator>
+    </Navigator>
   );
 }
 
-const HomeTabAStackNav = createStackNavigator();
 function HomeTabAStack() {
+  const {Navigator, Screen} = createNativeStackNavigator();
+
   return (
-    <HomeTabAStackNav.Navigator initialRouteName="TabA">
-      <HomeTabAStackNav.Screen
-        name="TabA"
-        component={TabA}
-        options={({ navigation }) => ({
-          headerLeft: () => drawerButton(navigation),
-        })}
-      />
-      <HomeTabAStackNav.Screen name="TabADetails" component={TabADetails} />
-    </HomeTabAStackNav.Navigator>
+    <Navigator initialRouteName="TabA">
+      <Screen name="TabA" component={TabA} options={initialScreenProps} />
+      <Screen name="TabADetails" component={TabADetails} />
+    </Navigator>
   );
 }
 
-const HomeTabBStackNav = createStackNavigator();
 function HomeTabBStack() {
+  const {Navigator, Screen} = createNativeStackNavigator();
+
   return (
-    <HomeTabBStackNav.Navigator initialRouteName="TabB">
-      <HomeTabBStackNav.Screen
-        name="TabB"
-        component={TabB}
-        options={({ navigation }) => ({
-          headerLeft: () => drawerButton(navigation),
-        })}
-      />
-      <HomeTabBStackNav.Screen name="TabBDetails" component={TabBDetails} />
-    </HomeTabBStackNav.Navigator>
+    <Navigator initialRouteName="TabB">
+      <Screen name="TabB" component={TabB} options={initialScreenProps} />
+      <Screen name="TabBDetails" component={TabBDetails} />
+    </Navigator>
   );
 }
 
-const HomeTabNav = createBottomTabNavigator();
 function HomeTab() {
+  const {Navigator, Screen} = createBottomTabNavigator();
+
+  const tabNavProps = {
+    screenOptions: ({route}) => ({
+      tabBarActiveTintColor: 'tomato',
+      tabBarInactiveTintColor: 'gray',
+      headerShown: false,
+      tabBarHideOnKeyboard: true,
+      tabBarIcon: ({focused, color, size}) => {
+        let iconName;
+        switch (route.name) {
+          case 'Tab A':
+            iconName = focused ? 'home-circle' : 'home-circle-outline';
+            break;
+          case 'Tab B':
+            iconName = focused ? 'account-circle' : 'account-circle-outline';
+            break;
+          default:
+            break;
+        }
+        return <Icon name={iconName} size={size} color={color} />;
+      },
+    }),
+  };
+
   return (
-    <HomeTabNav.Navigator
-      screenOptions={({ route }) => ({
-        tabBarActiveTintColor: "tomato",
-        tabBarInactiveTintColor: "gray",
-        headerShown: false,
-        tabBarIcon: ({ focused, color, size }) => {
-          let iconName;
-          switch (route.name) {
-            case "Tab A":
-              iconName = focused ? "home-circle" : "home-circle-outline";
-              break;
-            case "Tab B":
-              iconName = focused ? "account-circle" : "account-circle-outline";
-              break;
-            default:
-              break;
-          }
-          return <Icon name={iconName} size={size} color={color} />;
-        },
-      })}
-    >
-      <HomeTabNav.Screen name="Tab A" component={HomeTabAStack} />
-      <HomeTabNav.Screen name="Tab B" component={HomeTabBStack} />
-    </HomeTabNav.Navigator>
+    <Navigator {...tabNavProps}>
+      <Screen name="Tab A" component={HomeTabAStack} />
+      <Screen name="Tab B" component={HomeTabBStack} />
+    </Navigator>
   );
 }
 
-const NotificationStackNav = createStackNavigator();
 function NotificationsStack() {
+  const {Navigator, Screen} = createNativeStackNavigator();
+
   return (
-    <NotificationStackNav.Navigator>
-      <NotificationStackNav.Screen
+    <Navigator>
+      <Screen
         name="Notfications"
         component={NotificationsScreen}
-        options={({ navigation }) => ({
+        options={({navigation}) => ({
           headerLeft: () => drawerButton(navigation),
         })}
       />
-    </NotificationStackNav.Navigator>
+    </Navigator>
   );
 }
 
-function RootContainer({ user }) {
-  if (user?.loggedin)
-    return (
-      <NavigationContainer>
-        <Drawer.Navigator
-          initialRouteName="Home"
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <Drawer.Screen name="Home" component={HomeTab} />
-          <Drawer.Screen name="Notifications" component={NotificationsStack} />
-        </Drawer.Navigator>
-      </NavigationContainer>
-    );
-  else
-    return (
-      <NavigationContainer>
-        <LoginStack />
-      </NavigationContainer>
-    );
-}
+export default () => {
+  const {Navigator, Screen} = createDrawerNavigator();
 
-const mapStateToProps = (state) => {
-  return { user: state?.user };
+  const loggedin = useSelector(state => state?.user?.loggedin ?? false);
+
+  const CurrentNavigator = () => {
+    if (loggedin) {
+      const drawerNavProps = {
+        initialRouteName: 'Home',
+        screenOptions: {
+          headerShown: false,
+          swipeEnabled: false,
+          swipeEdgeWidth: 0,
+        },
+      };
+
+      return (
+        <Navigator {...drawerNavProps}>
+          <Screen name="Home" component={HomeTab} />
+          <Screen name="Notifications" component={NotificationsStack} />
+        </Navigator>
+      );
+    } else {
+      return <LoginStack />;
+    }
+  };
+
+  return (
+    <NavigationContainer>
+      <CurrentNavigator />
+    </NavigationContainer>
+  );
 };
-export default connect(mapStateToProps)(RootContainer);
