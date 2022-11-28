@@ -1,23 +1,23 @@
-import * as constants from '@app/constants';
+import * as constants from "@app/constants";
 
-import {Colors, DateTimePicker, Incubator} from 'react-native-ui-lib';
+import { Colors, DateTimePicker, Incubator } from "react-native-ui-lib";
 
-import React from 'react';
-import {StyleSheet} from 'react-native';
-import globalStyles from '@app/constants/globalStyles';
-import {useController} from 'react-hook-form';
+import React from "react";
+import { StyleSheet } from "react-native";
+import globalStyles from "@app/constants/globalStyles";
+import { useController } from "react-hook-form";
 
-const {TextField} = Incubator;
+const { TextField } = Incubator;
 
-export default props => {
-  const {name, rules, defaultValue} = props;
+export default (props) => {
+  const { name, rules, defaultValue } = props;
 
   const {
     field,
-    fieldState: {error},
-  } = useController({name, rules, defaultValue});
+    fieldState: { error },
+  } = useController({ name, rules, defaultValue });
 
-  const hasError = Boolean(error[name]);
+  const hasError = Boolean(error);
 
   const styles = StyleSheet.flatten([globalStyles, {}]);
 
@@ -31,9 +31,9 @@ export default props => {
       timeFormat={constants.pickerTimeFormat}
       minimumDate={new Date(1970, 0)}
       //Dialog props
-      headerStyle={{backgroundColor: Colors.mainBg}}
+      headerStyle={{ backgroundColor: Colors.mainBg }}
       dialogProps={{
-        containerStyle: {backgroundColor: 'white'},
+        containerStyle: { backgroundColor: "white" },
       }}
       themeVariant="light"
       textColor="white"
@@ -48,9 +48,9 @@ export default props => {
       fieldStyle={[styles.textField, props?.fieldStyle]}
       enableErrors={hasError}
       validationMessagePosition={TextField.validationMessagePositions.TOP}
-      validationMessage={hasError ? error[name]?.message : undefined}
+      validationMessage={hasError ? error?.message : undefined}
       //Value props
-      onChange={date => field.onChange(date?.toISOString() ?? null)}
+      onChange={(date) => field.onChange(date?.toISOString() ?? null)}
       value={field.value ? new Date(field.value) : null}
     />
   );

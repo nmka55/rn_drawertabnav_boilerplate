@@ -1,26 +1,26 @@
-import {Incubator, Picker} from 'react-native-ui-lib';
+import { Incubator, Picker } from "react-native-ui-lib";
 
-import React from 'react';
-import {StyleSheet} from 'react-native';
-import globalStyles from '@app/constants/globalStyles';
-import {useController} from 'react-hook-form';
+import React from "react";
+import { StyleSheet } from "react-native";
+import globalStyles from "@app/constants/globalStyles";
+import { useController } from "react-hook-form";
 
-const {TextField} = Incubator;
+const { TextField } = Incubator;
 
-export default props => {
-  const {name, rules, defaultValue, optionList = []} = props;
+export default (props) => {
+  const { name, rules, defaultValue, optionList = [] } = props;
 
   const {
     field,
-    fieldState: {error},
-  } = useController({name, rules, defaultValue});
+    fieldState: { error },
+  } = useController({ name, rules, defaultValue });
 
-  const hasError = Boolean(error[name]);
+  const hasError = Boolean(error);
 
   const styles = StyleSheet.flatten([globalStyles, {}]);
 
   const RenderOptions = () => {
-    const labelProperty = props?.labelProperty ?? 'id';
+    const labelProperty = props?.labelProperty ?? "id";
 
     return optionList?.map((item, index) => {
       return (
@@ -34,7 +34,7 @@ export default props => {
       {...props}
       //Picker props
       mode="SINGLE"
-      topBarProps={{title: props?.placeholder}}
+      topBarProps={{ title: props?.placeholder }}
       // TextField props
       migrateTextField
       floatOnFocus={true}
@@ -44,13 +44,14 @@ export default props => {
       color="black"
       enableErrors={hasError}
       validationMessagePosition={TextField.validationMessagePositions.TOP}
-      validationMessage={hasError ? error[name]?.message : undefined}
+      validationMessage={hasError ? error?.message : undefined}
       containerStyle={[styles.textFieldContainer, props?.containerStyle]}
       fieldStyle={[styles.textField, props?.fieldStyle]}
       //Value props
-      onChange={item => field.onChange(item?.value)}
+      onChange={(item) => field.onChange(item?.value)}
       value={field.value}
-      defaultValue={field.value}>
+      defaultValue={field.value}
+    >
       {RenderOptions()}
     </Picker>
   );
