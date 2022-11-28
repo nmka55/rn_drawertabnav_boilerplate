@@ -8,6 +8,13 @@ export default StyleSheet.create({
     width: '100%',
     backgroundColor: 'white',
   },
+  containerBase: {
+    flex: 1,
+    flexGrow: 1,
+    width: '100%',
+    padding: 16,
+    justifyContent: 'center',
+  },
   innerContainer: {
     flex: 1,
     width: '90%',

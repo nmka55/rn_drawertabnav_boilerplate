@@ -1,37 +1,25 @@
-import {Colors, DateTimePicker, Incubator} from 'react-native-ui-lib';
 import * as constants from '@app/constants';
-import globalStyles from '@app/constants/globalStyles';
-import {useController, useFormContext} from 'react-hook-form';
+
+import {Colors, DateTimePicker, Incubator} from 'react-native-ui-lib';
 
 import React from 'react';
 import {StyleSheet} from 'react-native';
+import globalStyles from '@app/constants/globalStyles';
+import {useController} from 'react-hook-form';
 
 const {TextField} = Incubator;
 
 export default props => {
   const {name, rules, defaultValue} = props;
 
-  const {formState} = useFormContext();
-  const {field} = useController({name, rules, defaultValue});
+  const {
+    field,
+    fieldState: {error},
+  } = useController({name, rules, defaultValue});
 
-  const hasError = Boolean(formState?.errors[name]);
+  const hasError = Boolean(error[name]);
 
-  const styles = StyleSheet.flatten([
-    globalStyles,
-    {
-      container: {
-        width: '100%',
-        marginBottom: 10,
-        borderRadius: 8,
-        paddingTop: hasError ? 8 : 16,
-        paddingBottom: 16,
-        paddingHorizontal: 8,
-        borderWidth: 1,
-        borderColor: Colors?.primary + '50',
-      },
-      field: {},
-    },
-  ]);
+  const styles = StyleSheet.flatten([globalStyles, {}]);
 
   return (
     <DateTimePicker
@@ -60,9 +48,7 @@ export default props => {
       fieldStyle={[styles.textField, props?.fieldStyle]}
       enableErrors={hasError}
       validationMessagePosition={TextField.validationMessagePositions.TOP}
-      validationMessage={
-        hasError ? formState?.errors[name]?.message : undefined
-      }
+      validationMessage={hasError ? error[name]?.message : undefined}
       //Value props
       onChange={date => field.onChange(date?.toISOString() ?? null)}
       value={field.value ? new Date(field.value) : null}

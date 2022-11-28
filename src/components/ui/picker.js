@@ -1,19 +1,21 @@
-import {Picker, Incubator, Colors, View} from 'react-native-ui-lib';
-import {useController, useFormContext} from 'react-hook-form';
+import {Incubator, Picker} from 'react-native-ui-lib';
 
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import globalStyles from '@app/constants/globalStyles';
+import {useController} from 'react-hook-form';
 
 const {TextField} = Incubator;
 
 export default props => {
   const {name, rules, defaultValue, optionList = []} = props;
 
-  const {formState} = useFormContext();
-  const {field} = useController({name, rules, defaultValue});
+  const {
+    field,
+    fieldState: {error},
+  } = useController({name, rules, defaultValue});
 
-  const hasError = Boolean(formState?.errors[name]);
+  const hasError = Boolean(error[name]);
 
   const styles = StyleSheet.flatten([globalStyles, {}]);
 
@@ -42,9 +44,7 @@ export default props => {
       color="black"
       enableErrors={hasError}
       validationMessagePosition={TextField.validationMessagePositions.TOP}
-      validationMessage={
-        hasError ? formState?.errors[name]?.message : undefined
-      }
+      validationMessage={hasError ? error[name]?.message : undefined}
       containerStyle={[styles.textFieldContainer, props?.containerStyle]}
       fieldStyle={[styles.textField, props?.fieldStyle]}
       //Value props

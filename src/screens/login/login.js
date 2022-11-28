@@ -1,18 +1,20 @@
+import {Button, Colors} from 'react-native-ui-lib';
+import {FormProvider, useForm} from 'react-hook-form';
+import {Icons, RHFTextField} from '@app/components';
 import {StyleSheet, View} from 'react-native';
+
 import React from 'react';
-import {Colors, Button} from 'react-native-ui-lib';
+import globalStyles from '@app/constants/globalStyles';
 import {useDispatch} from 'react-redux';
 import {userLogin} from '@app/redux/actions';
-import {useForm, FormProvider} from 'react-hook-form';
-import {Icons, RHFTextInput} from '@app/components';
-import globalStyles from '@app/constants/globalStyles';
 
 export default function Login() {
-  const form = useForm({});
+  const form = useForm();
 
   const dispatch = useDispatch();
 
   const onLoginPress = formData => {
+    console.log('VALIDATED !');
     dispatch(userLogin(formData));
   };
 
@@ -37,23 +39,18 @@ export default function Login() {
   );
 
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        padding: 16,
-      }}>
+    <View style={styles?.containerBase}>
       <FormProvider {...form}>
-        <RHFTextInput
+        <RHFTextField
           name="username"
           placeholder="Username"
-          rules={{required: 'Enter username please!'}}
+          rules={{required: 'Enter any username please!'}}
           leadingAccessory={usernameIcon}
         />
-        <RHFTextInput
+        <RHFTextField
           name="password"
           placeholder="Password"
-          rules={{required: 'Enter password please!'}}
+          rules={{required: 'Enter any password please!'}}
           leadingAccessory={passwordIcon}
           secureTextEntry={true}
         />

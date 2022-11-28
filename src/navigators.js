@@ -1,18 +1,19 @@
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import {TabB, TabBDetails} from '@app/screens/home/tabB';
+
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Login from '@app/screens/login/login';
-import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import NotificationsScreen from '@app/screens/notificationsScreen/notificationScreen';
+import {Pressable} from 'react-native';
 import React from 'react';
 import TabA from '@app/screens/home/tabA';
 import TabADetails from '@app/screens/home/tabADetails';
-import {TabB, TabBDetails} from '@app/screens/home/tabB';
-import {useSelector} from 'react-redux';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Pressable} from 'react-native';
+import {useSelector} from 'react-redux';
 
-const drawerButton = () => {
+const DrawerButton = () => {
   const navigation = useNavigation();
 
   return (
@@ -23,7 +24,7 @@ const drawerButton = () => {
 };
 
 const initialScreenProps = () => ({
-  headerLeft: () => drawerButton(),
+  headerLeft: () => DrawerButton(),
 });
 
 function LoginStack() {
@@ -106,8 +107,8 @@ function NotificationsStack() {
       <Screen
         name="Notfications"
         component={NotificationsScreen}
-        options={({navigation}) => ({
-          headerLeft: () => drawerButton(navigation),
+        options={({}) => ({
+          headerLeft: () => DrawerButton(),
         })}
       />
     </Navigator>

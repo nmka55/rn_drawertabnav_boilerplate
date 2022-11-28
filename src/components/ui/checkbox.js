@@ -16,7 +16,7 @@ export default props => {
         width: '100%',
         marginVertical: 10,
       },
-      label: {marginLeft: 8, fontSize: 14},
+      label: {marginLeft: 8, fontSize: 13},
     },
   ]);
 

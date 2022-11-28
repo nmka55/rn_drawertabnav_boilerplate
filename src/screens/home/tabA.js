@@ -1,7 +1,8 @@
-import {Button, View} from 'react-native';
+import {Button, StyleSheet, View} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 
 import React from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import globalStyles from '@app/constants/globalStyles';
 import {userLogout} from '@app/redux/actions';
 
 export default function TabA({navigation}) {
@@ -15,12 +16,14 @@ export default function TabA({navigation}) {
   };
 
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View style={styles?.containerBase}>
       <Button
         onPress={() => navigation.navigate('TabADetails')}
         title={`Hello, ${username}. Go to User Details`}
       />
-      <Button onPress={onLogoutPress} title={`Logout`} />
+      <Button onPress={onLogoutPress} title={'Logout'} />
     </View>
   );
 }
+
+const styles = StyleSheet.flatten([globalStyles, {}]);

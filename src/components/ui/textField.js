@@ -1,9 +1,8 @@
-import {Colors, Incubator, View} from 'react-native-ui-lib';
-import {useController, useFormContext} from 'react-hook-form';
-
+import {Incubator} from 'react-native-ui-lib';
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import globalStyles from '@app/constants/globalStyles';
+import {useController} from 'react-hook-form';
 
 const {TextField} = Incubator;
 
@@ -16,10 +15,12 @@ export default props => {
     showTrailingAccessoryAlways = false,
   } = props;
 
-  const {formState} = useFormContext();
-  const {field} = useController({name, rules, defaultValue});
+  const {
+    field,
+    fieldState: {error},
+  } = useController({name, rules, defaultValue});
 
-  const hasError = Boolean(formState?.errors[name]);
+  const hasError = Boolean(error);
 
   const styles = StyleSheet.flatten([globalStyles, {}]);
 
@@ -36,9 +37,7 @@ export default props => {
       fieldStyle={[styles.textField, props?.fieldStyle]}
       enableErrors={hasError}
       validationMessagePosition={TextField.validationMessagePositions.TOP}
-      validationMessage={
-        hasError ? formState?.errors[name]?.message : undefined
-      }
+      validationMessage={hasError ? error?.message : undefined}
       trailingAccessory={
         field.value?.length > 0 || showTrailingAccessoryAlways
           ? trailingAccessory

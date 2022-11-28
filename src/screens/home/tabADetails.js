@@ -1,16 +1,18 @@
 import {Button, Text, View} from 'react-native-ui-lib';
-
-import React from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import {useForm, FormProvider} from 'react-hook-form';
+import {FormProvider, useForm} from 'react-hook-form';
 import {
-  RHFTextInput,
   RHFCheckbox,
   RHFDatePicker,
   RHFPicker,
+  RHFTextField,
 } from '@app/components';
-import {userLogin} from '@app/redux/actions';
+import {useDispatch, useSelector} from 'react-redux';
+
+import React from 'react';
+import {StyleSheet} from 'react-native';
+import globalStyles from '@app/constants/globalStyles';
 import {useNavigation} from '@react-navigation/native';
+import {userLogin} from '@app/redux/actions';
 
 const genderOptionList = [
   {id: 'm', label: 'Male'},
@@ -32,20 +34,15 @@ export default function TabADetails() {
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        padding: 16,
-      }}>
+    <View style={styles?.containerBase}>
       <Text marginB-16>User Details</Text>
       <FormProvider {...form}>
-        <RHFTextInput
+        <RHFTextField
           name="firstname"
           placeholder="First name"
           rules={{required: 'Enter first name please!'}}
         />
-        <RHFTextInput
+        <RHFTextField
           name="lastname"
           placeholder="Last name"
           rules={{required: 'Enter last name please!'}}
@@ -74,3 +71,5 @@ export default function TabADetails() {
     </View>
   );
 }
+
+const styles = StyleSheet.flatten([globalStyles, {}]);
