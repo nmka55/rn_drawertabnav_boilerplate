@@ -20,7 +20,7 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
-
+ios/Pods
 # Gradle
 /build/
 /packages/react-native-codegen/android/build/
