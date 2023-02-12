@@ -13,8 +13,9 @@ export default function TabB(): JSX.Element {
   return (
     <View style={globalStyles.containerBase}>
       <Button
+        fullWidth
         onPress={() => navigation?.navigate('TabBDetails')}
-        title="Go to Tab B Details"
+        label="Go to Tab B Details"
       />
     </View>
   );

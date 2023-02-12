@@ -1,6 +1,7 @@
-import {Button, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 
+import {Button} from 'react-native-ui-lib';
 import {HomeTabAStackParamList} from '@app/navigators/types';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React from 'react';
@@ -27,10 +28,11 @@ export default function TabA(): JSX.Element {
   return (
     <View style={styles?.containerBase}>
       <Button
+        fullWidth
         onPress={() => navigation?.navigate('TabADetails')}
-        title={`Hello, ${username}. Go to User Details`}
+        label={`Hello, ${username}. Go to User Details`}
       />
-      <Button onPress={onLogoutPress} title={'Logout'} />
+      <Button link marginT-16 onPress={onLogoutPress} label={'Logout'} x />
     </View>
   );
 }
