@@ -10,7 +10,7 @@ export default (props: CheckboxPropType): JSX.Element => {
   const {name, rules, defaultValue} = props;
   const {field} = useController({name, rules, defaultValue});
 
-  const styles = StyleSheet.flatten([
+  const styles: any = StyleSheet.flatten([
     globalStyles,
     StyleSheet.create({
       container: {

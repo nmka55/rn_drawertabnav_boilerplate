@@ -1,12 +1,11 @@
 import {userLogin, userLogout} from '@app/redux/actions';
 
+import {UserDataType} from '@app/screens/home/types';
 import {createReducer} from '@reduxjs/toolkit';
 
 type InitialStateType = {
   loggedin: boolean;
-  userData: {
-    [x: string]: any;
-  };
+  userData: Partial<UserDataType>;
 };
 
 const initialState: InitialStateType = {

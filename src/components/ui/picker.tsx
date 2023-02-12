@@ -20,9 +20,9 @@ export default (props: PickerPropType): JSX.Element => {
     fieldState: {error},
   } = useController({name, rules, defaultValue});
 
-  const hasError = Boolean(error);
+  const hasError: boolean = Boolean(error);
 
-  const styles = StyleSheet.flatten([globalStyles]);
+  const styles: any = StyleSheet.flatten([globalStyles]);
 
   const RenderOptions = () => {
     return optionList?.map((item: PickerItemType, index: number) => {
@@ -33,6 +33,7 @@ export default (props: PickerPropType): JSX.Element => {
   };
 
   return (
+    // @ts-expect-error
     <Picker
       {...props}
       //Picker props

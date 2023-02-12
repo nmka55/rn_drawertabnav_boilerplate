@@ -67,7 +67,7 @@ export default function Login(): JSX.Element {
   );
 }
 
-const styles = StyleSheet.flatten([
+const styles: any = StyleSheet.flatten([
   globalStyles,
   StyleSheet.create({
     inputLeftIcon: {

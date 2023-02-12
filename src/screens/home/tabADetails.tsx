@@ -77,4 +77,4 @@ export default function TabADetails(): JSX.Element {
   );
 }
 
-const styles = StyleSheet.flatten([globalStyles, {}]);
+const styles: any = StyleSheet.flatten([globalStyles, {}]);

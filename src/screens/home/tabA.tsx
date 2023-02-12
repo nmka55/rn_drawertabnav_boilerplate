@@ -35,4 +35,4 @@ export default function TabA(): JSX.Element {
   );
 }
 
-const styles = StyleSheet.flatten([globalStyles, {}]);
+const styles: any = StyleSheet.flatten([globalStyles, {}]);

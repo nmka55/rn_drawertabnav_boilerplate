@@ -55,4 +55,5 @@ let persistor = persistStore(store);
 // #endregion
 
 export type StoreRootState = ReturnType<typeof store.getState>;
+export type StoreDispatchType = typeof store.dispatch;
 export {store, persistor};

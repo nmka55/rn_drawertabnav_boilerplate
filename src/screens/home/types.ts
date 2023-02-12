@@ -4,4 +4,5 @@ export type UserDataType = {
   dob: string;
   gender: string;
   hasDriversLicense: boolean;
+  username?: string;
 };

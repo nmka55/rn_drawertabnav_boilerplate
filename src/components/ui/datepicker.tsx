@@ -14,9 +14,9 @@ export default (props: DatePickerProps): JSX.Element => {
     fieldState: {error},
   } = useController({name, rules, defaultValue});
 
-  const hasError = Boolean(error);
+  const hasError: boolean = Boolean(error);
 
-  const styles = StyleSheet.flatten([globalStyles]);
+  const styles: any = StyleSheet.flatten([globalStyles]);
 
   return (
     <DateTimePicker
