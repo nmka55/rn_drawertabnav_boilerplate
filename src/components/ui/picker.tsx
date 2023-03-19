@@ -1,5 +1,5 @@
 import {Incubator, Picker} from 'react-native-ui-lib';
-import {PickerItemType, PickerPropType, PickerSelectedItemType} from './types';
+import {PickerItemType, PickerPropType} from './types';
 
 import React from 'react';
 import {StyleSheet} from 'react-native';
@@ -13,6 +13,7 @@ export default (props: PickerPropType): JSX.Element => {
     defaultValue,
     optionList = [],
     labelProperty = 'id',
+    ...restProps
   } = props;
 
   const {
@@ -35,7 +36,7 @@ export default (props: PickerPropType): JSX.Element => {
   return (
     // @ts-expect-error
     <Picker
-      {...props}
+      {...restProps}
       //Picker props
       mode="SINGLE"
       topBarProps={{title: props?.placeholder}}
@@ -54,7 +55,7 @@ export default (props: PickerPropType): JSX.Element => {
       containerStyle={[styles?.textFieldContainer, props?.containerStyle]}
       fieldStyle={[styles?.textField, props?.fieldStyle]}
       //Value props
-      onChange={(item: PickerSelectedItemType) => field.onChange(item?.value)}
+      onChange={field.onChange}
       value={field.value}
       defaultValue={field.value}>
       {RenderOptions()}

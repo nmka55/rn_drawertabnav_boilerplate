@@ -14,6 +14,7 @@ export default (props: TextFieldProps): JSX.Element => {
     defaultValue,
     trailingAccessory,
     showTrailingAccessoryAlways = false,
+    ...restProps
   } = props;
 
   const {
@@ -27,7 +28,7 @@ export default (props: TextFieldProps): JSX.Element => {
 
   return (
     <TextField
-      {...props}
+      {...restProps}
       // TextField Props
       label={props?.label ?? props?.placeholder}
       labelColor="black"

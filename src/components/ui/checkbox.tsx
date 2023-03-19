@@ -7,7 +7,7 @@ import {globalStyles} from '@app/constants';
 import {useController} from 'react-hook-form';
 
 export default (props: CheckboxPropType): JSX.Element => {
-  const {name, rules, defaultValue} = props;
+  const {name, rules, defaultValue, ...restProps} = props;
   const {field} = useController({name, rules, defaultValue});
 
   const styles: any = StyleSheet.flatten([
@@ -23,11 +23,11 @@ export default (props: CheckboxPropType): JSX.Element => {
 
   return (
     <Checkbox
-      {...props}
+      {...restProps}
       labelStyle={[styles?.label, props?.labelStyle]}
       containerStyle={[styles?.container, props?.containerStyle]}
-      color={Colors.primary}
-      iconColor={'white'}
+      color={Colors?.$iconPrimaryLight}
+      iconColor={Colors?.$backgroundPrimaryMedium}
       value={field.value}
       onValueChange={field.onChange}
     />

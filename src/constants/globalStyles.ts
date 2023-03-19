@@ -50,7 +50,7 @@ export default StyleSheet.create({
     paddingBottom: 8,
     paddingHorizontal: 8,
     borderWidth: 1,
-    borderColor: Colors?.primary + '50',
+    borderColor: Colors?.$backgroundPrimaryMedium,
   },
   textField: {},
 });

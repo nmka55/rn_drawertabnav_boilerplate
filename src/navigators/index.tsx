@@ -21,6 +21,7 @@ import {
 } from '@react-navigation/native-stack';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 
+import {Colors} from 'react-native-ui-lib';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Login from '@app/screens/login/login';
 import NotificationsScreen from '@app/screens/notificationsScreen/notificationScreen';
@@ -40,7 +41,7 @@ const DrawerButton = (): JSX.Element => {
 
   return (
     <Pressable onPress={() => toggleDrawer()}>
-      <Icon name="menu" size={24} />
+      <Icon name="menu" size={20} color={'black'} />
     </Pressable>
   );
 };
@@ -127,7 +128,7 @@ const HomeTab = (): JSX.Element => {
 
   const tabNavProps = {
     screenOptions: ({route}: BottomTabScreenProps<HomeTabParamList>) => ({
-      tabBarActiveTintColor: 'tomato',
+      tabBarActiveTintColor: Colors?.$iconPrimary,
       tabBarInactiveTintColor: 'gray',
       headerShown: false,
       tabBarHideOnKeyboard: true,
@@ -180,6 +181,8 @@ const CurrentNavigator = (): JSX.Element => {
       headerShown: false,
       swipeEnabled: false,
       swipeEdgeWidth: 0,
+      drawerActiveBackgroundColor: Colors?.$backgroundPrimaryLight,
+      drawerActiveTintColor: Colors?.$textPrimary,
     },
   };
 

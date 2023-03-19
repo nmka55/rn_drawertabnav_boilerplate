@@ -1,4 +1,4 @@
-import {Colors, DateTimePicker, Incubator} from 'react-native-ui-lib';
+import {DateTimePicker, Incubator} from 'react-native-ui-lib';
 import {constantValues, globalStyles} from '@app/constants';
 
 import {DatePickerProps} from './types';
@@ -7,7 +7,7 @@ import {StyleSheet} from 'react-native';
 import {useController} from 'react-hook-form';
 
 export default (props: DatePickerProps): JSX.Element => {
-  const {name, rules, defaultValue} = props;
+  const {name, rules, defaultValue, ...restProps} = props;
 
   const {
     field,
@@ -20,22 +20,14 @@ export default (props: DatePickerProps): JSX.Element => {
 
   return (
     <DateTimePicker
-      {...props}
+      {...restProps}
       //Date props
       is24Hour={true}
       locale="mn"
       dateFormat={constantValues.pickerDateFormat}
       timeFormat={constantValues.pickerTimeFormat}
       minimumDate={new Date(1970, 0)}
-      //Dialog props
-      headerStyle={{backgroundColor: Colors.mainBg}}
-      dialogProps={{
-        containerStyle: {backgroundColor: 'white'},
-      }}
-      themeVariant="light"
-      textColor="white"
       //TextField props
-      migrateTextField
       label={props?.label ?? props?.placeholder}
       labelColor="black"
       color="black"
