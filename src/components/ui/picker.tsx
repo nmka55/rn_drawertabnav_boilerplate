@@ -34,7 +34,6 @@ export default (props: PickerPropType): JSX.Element => {
   };
 
   return (
-    // @ts-expect-error
     <Picker
       {...restProps}
       //Picker props
