@@ -8,7 +8,8 @@ I made this simple boilerplate with react-navigation to save some time for me in
 
 > **Features:**
 >
-> - Based on bare React Native 0.71 (no expo)
+> - Based on bare React Native 0.72 (no expo)
+> - Dark theme support out of the box. (If you want to add custom color scheme, read RN UI Lib - Colors docs)
 > - Added [react-native-ui-lib](https://wix.github.io/react-native-ui-lib/) with [React Hook Forms](https://react-hook-form.com)
 > - Configured [React Navigation](https://reactnavigation.org) (nested navigators consist of Native Stack, Drawer and Bottom Tab)
 > - Implemented redux store with persist ([reduxjs/toolkit](https://redux-toolkit.js.org) + [react-redux](https://react-redux.js.org) + [MMKV](https://github.com/mrousavy/react-native-mmkv)).
