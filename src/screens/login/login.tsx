@@ -1,9 +1,9 @@
-import {Button, Colors} from 'react-native-ui-lib';
+import {Button, Colors, View} from 'react-native-ui-lib';
 import {FormProvider, useForm} from 'react-hook-form';
 import {Icons, RHFTextField} from '@app/components';
-import {StyleSheet, View} from 'react-native';
 
 import React from 'react';
+import {StyleSheet} from 'react-native';
 import {UserDataType} from '../home/types';
 import globalStyles from '@app/constants/globalStyles';
 import {useDispatch} from 'react-redux';
@@ -23,7 +23,7 @@ export default function Login(): JSX.Element {
     <Icons
       iconSet="Ionicons"
       name="person-outline"
-      color={Colors?.primary}
+      color={Colors?.$iconPrimary}
       size={16}
       style={styles.inputLeftIcon}
     />
@@ -33,7 +33,7 @@ export default function Login(): JSX.Element {
     <Icons
       iconSet="Ionicons"
       name="lock-closed-outline"
-      color={Colors?.primary}
+      color={Colors?.$iconPrimary}
       size={16}
       style={styles.inputLeftIcon}
     />
@@ -59,7 +59,6 @@ export default function Login(): JSX.Element {
       </FormProvider>
 
       <Button
-        fullWidth
         onPress={() => form?.handleSubmit(onLoginPress)()}
         label="Login"
       />

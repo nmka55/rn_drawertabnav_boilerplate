@@ -1,11 +1,11 @@
-import {StyleSheet, View} from 'react-native';
+import {Button, View} from 'react-native-ui-lib';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {Button} from 'react-native-ui-lib';
 import {HomeTabAStackParamList} from '@app/navigators/types';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React from 'react';
 import {StoreRootState} from '@app/redux/store';
+import {StyleSheet} from 'react-native';
 import globalStyles from '@app/constants/globalStyles';
 import {useNavigation} from '@react-navigation/native';
 import {userLogout} from '@app/redux/actions';
@@ -28,7 +28,6 @@ export default function TabA(): JSX.Element {
   return (
     <View style={styles?.containerBase}>
       <Button
-        fullWidth
         onPress={() => navigation?.navigate('TabADetails')}
         label={`Hello, ${username}. Go to User Details`}
       />

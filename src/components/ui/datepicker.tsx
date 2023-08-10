@@ -1,13 +1,13 @@
-import {DateTimePicker, Incubator} from 'react-native-ui-lib';
-import {constantValues, globalStyles} from '@app/constants';
+import {DateTimePicker, TextField} from 'react-native-ui-lib';
+import {constantValues, globalStyles as styles} from '@app/constants';
 
 import {DatePickerProps} from './types';
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {useColorScheme} from 'react-native';
 import {useController} from 'react-hook-form';
 
 export default (props: DatePickerProps): JSX.Element => {
-  const {name, rules, defaultValue, ...restProps} = props;
+  const {name, rules, defaultValue, ...restOfProps} = props;
 
   const {
     field,
@@ -16,11 +16,12 @@ export default (props: DatePickerProps): JSX.Element => {
 
   const hasError: boolean = Boolean(error);
 
-  const styles: any = StyleSheet.flatten([globalStyles]);
+  const currentColorScheme = useColorScheme();
 
   return (
     <DateTimePicker
-      {...restProps}
+      {...restOfProps}
+      themeVariant={currentColorScheme?.toUpperCase()}
       //Date props
       is24Hour={true}
       locale="mn"
@@ -29,16 +30,12 @@ export default (props: DatePickerProps): JSX.Element => {
       minimumDate={new Date(1970, 0)}
       //TextField props
       label={props?.label ?? props?.placeholder}
-      labelColor="black"
-      color="black"
       floatOnFocus={true}
       floatingPlaceholder={true}
       containerStyle={[styles?.textFieldContainer, props?.containerStyle]}
       fieldStyle={[styles?.textField, props?.fieldStyle]}
       enableErrors={hasError}
-      validationMessagePosition={
-        Incubator.TextField.validationMessagePositions.TOP
-      }
+      validationMessagePosition={TextField.validationMessagePositions.TOP}
       validationMessage={hasError ? error?.message : undefined}
       //Value props
       onChange={(date: Date) => field.onChange(date?.toISOString() ?? null)}

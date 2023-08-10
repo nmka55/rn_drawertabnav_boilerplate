@@ -1,9 +1,8 @@
-import {Incubator, Picker} from 'react-native-ui-lib';
+import {Picker, TextField} from 'react-native-ui-lib';
 import {PickerItemType, PickerPropType} from './types';
 
 import React from 'react';
-import {StyleSheet} from 'react-native';
-import {globalStyles} from '@app/constants';
+import {globalStyles as styles} from '@app/constants';
 import {useController} from 'react-hook-form';
 
 export default (props: PickerPropType): JSX.Element => {
@@ -13,7 +12,7 @@ export default (props: PickerPropType): JSX.Element => {
     defaultValue,
     optionList = [],
     labelProperty = 'id',
-    ...restProps
+    ...restOfProps
   } = props;
 
   const {
@@ -22,8 +21,6 @@ export default (props: PickerPropType): JSX.Element => {
   } = useController({name, rules, defaultValue});
 
   const hasError: boolean = Boolean(error);
-
-  const styles: any = StyleSheet.flatten([globalStyles]);
 
   const RenderOptions = () => {
     return optionList?.map((item: PickerItemType, index: number) => {
@@ -35,21 +32,16 @@ export default (props: PickerPropType): JSX.Element => {
 
   return (
     <Picker
-      {...restProps}
+      {...restOfProps}
       //Picker props
       mode="SINGLE"
       topBarProps={{title: props?.placeholder}}
       // TextField props
-      migrateTextField
       floatOnFocus={true}
       floatingPlaceholder={true}
       label={props?.label ?? props?.placeholder}
-      labelColor="black"
-      color="black"
       enableErrors={hasError}
-      validationMessagePosition={
-        Incubator.TextField.validationMessagePositions.TOP
-      }
+      validationMessagePosition={TextField.validationMessagePositions.TOP}
       validationMessage={hasError ? error?.message : undefined}
       containerStyle={[styles?.textFieldContainer, props?.containerStyle]}
       fieldStyle={[styles?.textField, props?.fieldStyle]}

@@ -1,11 +1,12 @@
 {
   "extends": "@tsconfig/react-native/tsconfig.json",
+  //For editor autocompletion
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "@app/*": ["src/*"],
-      "@components/*": ["src/components/*"],
       "@constants": ["src/constants"],
+      "@components/*": ["src/components/*"],
       "@navigators/*": ["src/navigators/*"],
       "@redux/*": ["src/redux/*"],
       "@screens/*": ["src/screens/*"]

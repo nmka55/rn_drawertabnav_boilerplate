@@ -3,6 +3,12 @@ import {
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
 import {
+  DarkTheme,
+  DefaultTheme,
+  NavigationContainer,
+  useNavigation,
+} from '@react-navigation/native';
+import {
   DrawerNavigationProp,
   createDrawerNavigator,
 } from '@react-navigation/drawer';
@@ -19,13 +25,12 @@ import {
   NativeStackNavigationOptions,
   createNativeStackNavigator,
 } from '@react-navigation/native-stack';
-import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import {Pressable, useColorScheme} from 'react-native';
 
 import {Colors} from 'react-native-ui-lib';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Login from '@app/screens/login/login';
 import NotificationsScreen from '@app/screens/notificationsScreen/notificationScreen';
-import {Pressable} from 'react-native';
 import React from 'react';
 import {StoreRootState} from '@app/redux/store';
 import TabA from '@app/screens/home/tabA';
@@ -41,7 +46,7 @@ const DrawerButton = (): JSX.Element => {
 
   return (
     <Pressable onPress={() => toggleDrawer()}>
-      <Icon name="menu" size={20} color={'black'} />
+      <Icon name="menu" size={20} color={Colors.$iconPrimary} />
     </Pressable>
   );
 };
@@ -196,8 +201,13 @@ const CurrentNavigator = (): JSX.Element => {
 
 // #endregion
 
-export default () => (
-  <NavigationContainer>
-    <CurrentNavigator />
-  </NavigationContainer>
-);
+export default () => {
+  const currentColorScheme = useColorScheme();
+
+  return (
+    <NavigationContainer
+      theme={currentColorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <CurrentNavigator />
+    </NavigationContainer>
+  );
+};

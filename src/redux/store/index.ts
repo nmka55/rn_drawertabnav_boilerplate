@@ -5,6 +5,7 @@ import {
   PURGE,
   REGISTER,
   REHYDRATE,
+  Storage,
   persistReducer,
   persistStore,
 } from 'redux-persist';
@@ -15,7 +16,8 @@ import rootReducer from '@app/redux/reducers';
 
 // #region MMKV setup
 const storage = new MMKV();
-const reduxStorage = {
+
+export const reduxStorage: Storage = {
   setItem: (key: string, value: any) => {
     storage.set(key, value);
     return Promise.resolve(true);
@@ -56,4 +58,5 @@ let persistor = persistStore(store);
 
 export type StoreRootState = ReturnType<typeof store.getState>;
 export type StoreDispatchType = typeof store.dispatch;
+
 export {store, persistor};

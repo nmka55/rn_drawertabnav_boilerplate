@@ -1,6 +1,6 @@
+import {Text, View} from 'react-native-ui-lib';
+
 import React from 'react';
-import {Text} from 'react-native-ui-lib';
-import {View} from 'react-native';
 import {globalStyles} from '@app/constants';
 
 export default function NotificationsScreen(): JSX.Element {

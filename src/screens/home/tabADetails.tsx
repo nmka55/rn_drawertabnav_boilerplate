@@ -68,11 +68,7 @@ export default function TabADetails(): JSX.Element {
         <RHFCheckbox name="hasDriversLicense" label="Has Drivers License" />
       </FormProvider>
 
-      <Button
-        fullWidth
-        onPress={() => form?.handleSubmit(onSavePress)()}
-        label="Save"
-      />
+      <Button onPress={() => form?.handleSubmit(onSavePress)()} label="Save" />
     </View>
   );
 }

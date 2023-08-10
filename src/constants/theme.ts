@@ -1,9 +1,6 @@
 export default {
-  colors: {
-    primary: '#2F1B25',
-    error: '#FF686B',
-    accent: '#A5FFD6',
-  },
+  primaryColor: '#338DFF',
+  colors: {},
   fonts: {
     font48: {fontSize: 48},
     font36: {fontSize: 36},

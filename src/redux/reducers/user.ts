@@ -5,12 +5,12 @@ import {createReducer} from '@reduxjs/toolkit';
 
 type InitialStateType = {
   loggedin: boolean;
-  userData: Partial<UserDataType>;
+  userData: Partial<UserDataType> | undefined;
 };
 
 const initialState: InitialStateType = {
   loggedin: false,
-  userData: {},
+  userData: undefined,
 };
 
 export default createReducer(initialState, builder => {
