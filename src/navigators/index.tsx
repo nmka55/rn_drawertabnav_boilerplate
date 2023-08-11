@@ -203,10 +203,10 @@ const CurrentNavigator = (): JSX.Element => {
 
 export default () => {
   const currentColorScheme = useColorScheme();
+  const currentTheme = currentColorScheme === 'dark' ? DarkTheme : DefaultTheme;
 
   return (
-    <NavigationContainer
-      theme={currentColorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <NavigationContainer theme={currentTheme}>
       <CurrentNavigator />
     </NavigationContainer>
   );
