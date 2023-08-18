@@ -1,8 +1,8 @@
 import {DateTimePicker, TextField} from 'react-native-ui-lib';
-import {constantValues, globalStyles as styles} from '@app/constants';
 
 import {DatePickerProps} from './types';
 import React from 'react';
+import {globalStyles as styles} from '@app/constants';
 import {useColorScheme} from 'react-native';
 import {useController} from 'react-hook-form';
 
@@ -16,17 +16,16 @@ export default (props: DatePickerProps): JSX.Element => {
 
   const hasError: boolean = Boolean(error);
 
-  const currentColorScheme = useColorScheme();
+  const currentColorScheme: 'dark' | 'light' | undefined =
+    useColorScheme() ?? undefined;
 
   return (
     <DateTimePicker
       {...restOfProps}
-      themeVariant={currentColorScheme?.toUpperCase()}
+      themeVariant={currentColorScheme}
       //Date props
       is24Hour={true}
       locale="mn"
-      dateFormat={constantValues.pickerDateFormat}
-      timeFormat={constantValues.pickerTimeFormat}
       minimumDate={new Date(1970, 0)}
       //TextField props
       label={props?.label ?? props?.placeholder}
@@ -39,7 +38,7 @@ export default (props: DatePickerProps): JSX.Element => {
       validationMessage={hasError ? error?.message : undefined}
       //Value props
       onChange={(date: Date) => field.onChange(date?.toISOString() ?? null)}
-      value={field.value ? new Date(field.value) : null}
+      value={field.value ? new Date(field.value) : undefined}
     />
   );
 };

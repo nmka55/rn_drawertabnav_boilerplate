@@ -1,4 +1,4 @@
-import {Picker, TextField} from 'react-native-ui-lib';
+import {Picker, PickerModes, TextField} from 'react-native-ui-lib';
 import {PickerItemType, PickerPropType} from './types';
 
 import React from 'react';
@@ -34,7 +34,7 @@ export default (props: PickerPropType): JSX.Element => {
     <Picker
       {...restOfProps}
       //Picker props
-      mode="SINGLE"
+      mode={PickerModes.SINGLE}
       topBarProps={{title: props?.placeholder}}
       // TextField props
       floatOnFocus={true}
