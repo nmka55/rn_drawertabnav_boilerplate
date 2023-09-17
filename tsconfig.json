@@ -2,6 +2,7 @@
   "extends": "@tsconfig/react-native/tsconfig.json",
   //For editor autocompletion
   "compilerOptions": {
+    "jsx": "react",
     "baseUrl": ".",
     "paths": {
       "@app/*": ["src/*"],
