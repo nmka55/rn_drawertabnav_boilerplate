@@ -1,7 +1,7 @@
 import React from 'react';
 import {TextField} from 'react-native-ui-lib';
 import {TextFieldProps} from './types';
-import {globalStyles as styles} from '@app/constants';
+import {GlobalStyles} from '@app/constants';
 import {useController} from 'react-hook-form';
 
 const CustomTextField = ({
@@ -30,8 +30,11 @@ const CustomTextField = ({
       label={restOfProps.label ?? restOfProps.placeholder}
       floatOnFocus
       floatingPlaceholder
-      containerStyle={[styles.textFieldContainer, restOfProps.containerStyle]}
-      fieldStyle={[styles.textField, restOfProps.fieldStyle]}
+      containerStyle={[
+        GlobalStyles.textFieldContainer,
+        restOfProps.containerStyle,
+      ]}
+      fieldStyle={[GlobalStyles.textField, restOfProps.fieldStyle]}
       enableErrors={hasError}
       validationMessagePosition={TextField.validationMessagePositions.TOP}
       validationMessage={hasError ? error?.message ?? '' : undefined} // Safeguard for undefined error

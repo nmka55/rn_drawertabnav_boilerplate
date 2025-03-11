@@ -29,12 +29,12 @@ import {
   RootDrawerParamList,
 } from './types';
 
-import Login from '@app/screens/login/Login';
+import Login from '@app/screens/Login/Login';
 import NotificationsScreen from '@app/screens/NotificationsScreen/NotificationScreen';
-import TabA from '@app/screens/home/TabA';
-import TabADetails from '@app/screens/home/TabADetails';
-import TabB from '@app/screens/home/TabB';
-import TabBDetails from '@app/screens/home/TabBDetails';
+import TabA from '@app/screens/Home/TabA';
+import TabADetails from '@app/screens/Home/TabADetails';
+import TabB from '@app/screens/Home/TabB';
+import TabBDetails from '@app/screens/Home/TabBDetails';
 
 // Shared components and props
 const DrawerButton = (): React.JSX.Element => {

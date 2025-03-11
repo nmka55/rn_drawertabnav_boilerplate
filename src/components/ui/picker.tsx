@@ -1,7 +1,7 @@
 import React from 'react';
 import {Picker, PickerModes, TextField} from 'react-native-ui-lib';
 import {useController} from 'react-hook-form';
-import {globalStyles as styles} from '@app/constants';
+import {GlobalStyles} from '@app/constants';
 import {PickerItemType, PickerPropType} from './types';
 
 const CustomPicker = ({
@@ -30,8 +30,11 @@ const CustomPicker = ({
       enableErrors={hasError}
       validationMessagePosition={TextField.validationMessagePositions.TOP}
       validationMessage={hasError ? error?.message : undefined}
-      containerStyle={[styles.textFieldContainer, restOfProps.containerStyle]}
-      fieldStyle={[styles.textField, restOfProps.fieldStyle]}
+      containerStyle={[
+        GlobalStyles.textFieldContainer,
+        restOfProps.containerStyle,
+      ]}
+      fieldStyle={[GlobalStyles.textField, restOfProps.fieldStyle]}
       onChange={onChange}
       value={value}
       defaultValue={value}>

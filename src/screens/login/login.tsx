@@ -5,7 +5,7 @@ import {FormProvider, useForm} from 'react-hook-form';
 import {useDispatch} from 'react-redux';
 import {Icons, RHFTextField} from '@app/components';
 import {GlobalStyles} from '@app/constants';
-import {UserDataType} from '@screens/home/types';
+import {UserDataType} from '@app/screens/Home/types';
 import {userLogin} from '@app/redux/actions';
 
 const Login = (): React.JSX.Element => {
