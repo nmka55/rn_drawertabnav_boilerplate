@@ -8,47 +8,41 @@ export function CurrencyFormatter(
   currencyCode: string = 'MNT',
   locales: string = 'mn-MN',
 ) {
-  const options = {
+  return new Intl.NumberFormat(locales, {
     style: 'currency',
     currency: currencyCode,
     currencyDisplay: 'symbol',
     maximumFractionDigits: 0,
-  };
-
-  return new Intl.NumberFormat(locales, options);
+  });
 }
 
 export function DateTimeFormatter(
   text: string = '',
   format: string = constantValues?.dateTimeFormat,
-) {
-  if (text) {
-    return DateTime?.fromISO(text)?.toFormat(format);
-  } else {
-    return null;
-  }
+): string | null {
+  return text ? DateTime.fromISO(text).toFormat(format) : null;
 }
 
-export function DurationFormatter(dateISOString: string = '') {
+export function DurationFormatter(dateISOString: string = ''): string | null {
   if (!dateISOString) {
     return null;
   }
 
-  const now = DateTime?.now();
+  const now = DateTime.now();
   const createdDate = DateTime.fromISO(dateISOString);
+  const diff = now.diff(createdDate, ['hours', 'minutes']).toObject();
 
-  const {hours = -1, minutes = -1} = now
-    .diff(createdDate, ['hours', 'minutes'])
-    .toObject();
+  const hours = Math.floor(diff.hours ?? -1);
+  const minutes = Math.floor(diff.minutes ?? -1);
 
   if (hours === -1 && minutes === -1) {
     return null;
   }
-
-  if (hours > 1 && hours < 24) {
-    return `${Math.floor(hours)} цагийн өмнө`;
-  } else if (hours < 1 && minutes > 0) {
-    return `${Math.floor(minutes)} минутын өмнө`;
+  if (hours >= 1 && hours < 24) {
+    return `${hours} цагийн өмнө`;
+  }
+  if (hours < 1 && minutes > 0) {
+    return `${minutes} минутын өмнө`;
   }
 
   return DateTimeFormatter(dateISOString);

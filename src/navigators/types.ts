@@ -1,6 +1,5 @@
 import {NavigatorScreenParams, RouteProp} from '@react-navigation/native';
 
-// #region Navigator Param Lists
 export type RootDrawerParamList = {
   Home: NavigatorScreenParams<HomeTabParamList>;
   Notifications: NavigatorScreenParams<NotificationsStackParamList>;
@@ -11,7 +10,7 @@ export type LoginStackParamList = {
 };
 
 export type NotificationsStackParamList = {
-  Notfications: undefined;
+  Notifications: undefined;
 };
 
 export type HomeTabAStackParamList = {
@@ -28,13 +27,10 @@ export type HomeTabParamList = {
   'Tab A': NavigatorScreenParams<HomeTabAStackParamList>;
   'Tab B': NavigatorScreenParams<HomeTabBStackParamList>;
 };
-// #endregion
 
-// #region Other Types
 export type TabBarIconPropsType = {
   focused: boolean;
   color: string;
   size: number;
-  route?: RouteProp<HomeTabParamList, keyof HomeTabParamList>;
+  route: RouteProp<HomeTabParamList, keyof HomeTabParamList>;
 };
-// #endregion

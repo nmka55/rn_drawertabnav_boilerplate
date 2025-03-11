@@ -1,11 +1,10 @@
-import {userLogin, userLogout} from '@app/redux/actions';
-
-import {UserDataType} from '@app/screens/home/types';
 import {createReducer} from '@reduxjs/toolkit';
+import {userLogin, userLogout} from '@app/redux/actions';
+import {UserDataType} from '@app/screens/home/types';
 
 type InitialStateType = {
   loggedin: boolean;
-  userData: Partial<UserDataType> | undefined;
+  userData?: Partial<UserDataType>;
 };
 
 const initialState: InitialStateType = {
@@ -13,19 +12,13 @@ const initialState: InitialStateType = {
   userData: undefined,
 };
 
-export default createReducer(initialState, builder => {
+const userReducer = createReducer(initialState, builder => {
   builder
     .addCase(userLogin, (state, action) => {
-      return {
-        ...state,
-        loggedin: true,
-        userData: {...action.payload},
-      };
+      state.loggedin = true;
+      state.userData = {...action.payload};
     })
-    .addCase(userLogout, () => {
-      return initialState;
-    })
-    .addDefaultCase(state => {
-      return state;
-    });
+    .addCase(userLogout, () => initialState);
 });
+
+export default userReducer;

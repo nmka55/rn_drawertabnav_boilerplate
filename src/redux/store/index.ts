@@ -9,41 +9,29 @@ import {
   persistReducer,
   persistStore,
 } from 'redux-persist';
-
 import {MMKV} from 'react-native-mmkv';
 import {configureStore} from '@reduxjs/toolkit';
 import rootReducer from '@app/redux/reducers';
 
-// #region MMKV setup
+// MMKV Storage setup
 const storage = new MMKV();
-
-export const reduxStorage: Storage = {
-  setItem: (key: string, value: any) => {
-    storage.set(key, value);
-    return Promise.resolve(true);
-  },
-  getItem: (key: string) => {
-    const value = storage.getString(key);
-    return Promise.resolve(value);
-  },
-  removeItem: (key: string) => {
-    storage.delete(key);
-    return Promise.resolve();
-  },
+const reduxStorage: Storage = {
+  setItem: (key, value) => Promise.resolve(storage.set(key, value)),
+  getItem: key => Promise.resolve(storage.getString(key)),
+  removeItem: key => Promise.resolve(storage.delete(key)),
 };
-// #endregion
 
-// #region persist setup
+// Persist config
 const persistConfig = {
   key: 'root',
   storage: reduxStorage,
 };
 
+// Persisted reducer
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-// #endregion
 
-// #region store setup
-let store = configureStore({
+// Configure store
+const store = configureStore({
   reducer: persistedReducer,
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
@@ -53,9 +41,9 @@ let store = configureStore({
     }),
 });
 
-let persistor = persistStore(store);
-// #endregion
+const persistor = persistStore(store);
 
+// Store types
 export type StoreRootState = ReturnType<typeof store.getState>;
 export type StoreDispatchType = typeof store.dispatch;
 

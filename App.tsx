@@ -7,6 +7,7 @@ import {PersistGate} from 'redux-persist/integration/react';
 import {Provider} from 'react-redux';
 import RootContainer from '@app/navigators';
 import {theme} from '@constants';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 //For dark theme support
 require('react-native-ui-lib/config').setConfig({appScheme: 'default'});
@@ -16,7 +17,7 @@ LogBox.ignoreLogs([
   'Warning: Function components cannot be given refs.', // RN UI Lib TextField leadingAccessory ref warning
 ]);
 
-export default function App(): JSX.Element {
+export default function App(): React.JSX.Element {
   useEffect(() => {
     Colors.loadDesignTokens({primaryColor: theme?.primaryColor});
     Colors.loadColors(theme?.colors);
@@ -24,10 +25,12 @@ export default function App(): JSX.Element {
   }, []);
 
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <RootContainer />
-      </PersistGate>
-    </Provider>
+    <GestureHandlerRootView>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <RootContainer />
+        </PersistGate>
+      </Provider>
+    </GestureHandlerRootView>
   );
 }

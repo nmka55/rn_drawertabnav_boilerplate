@@ -1,17 +1,28 @@
+import React from 'react';
+import {Pressable, useColorScheme} from 'react-native';
+import {Colors} from 'react-native-ui-lib';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useSelector} from 'react-redux';
+import {StoreRootState} from '@app/redux/store';
 import {
-  BottomTabScreenProps,
   createBottomTabNavigator,
+  BottomTabScreenProps,
 } from '@react-navigation/bottom-tabs';
+import {
+  createDrawerNavigator,
+  DrawerNavigationProp,
+} from '@react-navigation/drawer';
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationOptions,
+} from '@react-navigation/native-stack';
 import {
   DarkTheme,
   DefaultTheme,
   NavigationContainer,
   useNavigation,
 } from '@react-navigation/native';
-import {
-  DrawerNavigationProp,
-  createDrawerNavigator,
-} from '@react-navigation/drawer';
+
 import {
   HomeTabAStackParamList,
   HomeTabBStackParamList,
@@ -21,38 +32,27 @@ import {
   RootDrawerParamList,
   TabBarIconPropsType,
 } from './types';
-import {
-  NativeStackNavigationOptions,
-  createNativeStackNavigator,
-} from '@react-navigation/native-stack';
-import {Pressable, useColorScheme} from 'react-native';
 
-import {Colors} from 'react-native-ui-lib';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Login from '@app/screens/login/login';
 import NotificationsScreen from '@app/screens/notificationsScreen/notificationScreen';
-import React from 'react';
-import {StoreRootState} from '@app/redux/store';
 import TabA from '@app/screens/home/tabA';
 import TabADetails from '@app/screens/home/tabADetails';
 import TabB from '@app/screens/home/tabB';
 import TabBDetails from '@app/screens/home/tabBDetails';
-import {useSelector} from 'react-redux';
 
-// #region Shared components and props
-const DrawerButton = (): JSX.Element => {
+// Shared components and props
+const DrawerButton = (): React.JSX.Element => {
   const {toggleDrawer} =
     useNavigation<DrawerNavigationProp<RootDrawerParamList>>();
-
   return (
-    <Pressable onPress={() => toggleDrawer()}>
+    <Pressable onPress={toggleDrawer}>
       <Icon name="menu" size={20} color={Colors.$iconPrimary} />
     </Pressable>
   );
 };
 
-const initialDrawerScreenProps = (): Partial<NativeStackNavigationOptions> => ({
-  headerLeft: () => DrawerButton(),
+const drawerScreenOptions = (): Partial<NativeStackNavigationOptions> => ({
+  headerLeft: () => <DrawerButton />,
 });
 
 const RenderTabBarIcon = ({
@@ -60,119 +60,95 @@ const RenderTabBarIcon = ({
   color,
   size,
   route,
-}: TabBarIconPropsType): JSX.Element => {
-  let iconName = '';
-
-  switch (route?.name) {
-    case 'Tab A':
-      iconName = focused ? 'home-circle' : 'home-circle-outline';
-      break;
-    case 'Tab B':
-      iconName = focused ? 'account-circle' : 'account-circle-outline';
-      break;
-    default:
-      break;
+}: TabBarIconPropsType): React.JSX.Element => {
+  if (!route) {
+    // Handle undefined route case (optional)
+    return <Icon name="alert-circle-outline" size={size} color={color} />;
   }
+
+  const iconMap: Record<string, [string, string]> = {
+    'Tab A': ['home-circle-outline', 'home-circle'],
+    'Tab B': ['account-circle-outline', 'account-circle'],
+  };
+
+  const [defaultIcon, focusedIcon] = iconMap[route.name] || ['', ''];
+  const iconName = focused ? focusedIcon : defaultIcon;
+
   return <Icon name={iconName} size={size} color={color} />;
 };
 
-// #endregion
-
-// #region Login Stack
-const LoginStack = (): JSX.Element => {
+// Login Stack
+const LoginStack = (): React.JSX.Element => {
   const {Navigator, Screen} = createNativeStackNavigator<LoginStackParamList>();
-
   return (
     <Navigator initialRouteName="Login">
-      <Screen
-        name="Login"
-        component={Login}
-        options={{
-          headerShown: false,
-        }}
-      />
+      <Screen name="Login" component={Login} options={{headerShown: false}} />
     </Navigator>
   );
 };
 
-// #endregion
-
-// #region Home Tab Navigators
-// #region Home Tab A Stack
-
-const HomeTabAStack = (): JSX.Element => {
+// Home Tab A Stack
+const HomeTabAStack = (): React.JSX.Element => {
   const {Navigator, Screen} =
     createNativeStackNavigator<HomeTabAStackParamList>();
-
   return (
     <Navigator initialRouteName="TabA">
-      <Screen name="TabA" component={TabA} options={initialDrawerScreenProps} />
+      <Screen name="TabA" component={TabA} options={drawerScreenOptions} />
       <Screen name="TabADetails" component={TabADetails} />
     </Navigator>
   );
 };
 
-// #endregion
-
-// #region Home Tab B Stack
-const HomeTabBStack = (): JSX.Element => {
+// Home Tab B Stack
+const HomeTabBStack = (): React.JSX.Element => {
   const {Navigator, Screen} =
     createNativeStackNavigator<HomeTabBStackParamList>();
-
   return (
     <Navigator initialRouteName="TabB">
-      <Screen name="TabB" component={TabB} options={initialDrawerScreenProps} />
+      <Screen name="TabB" component={TabB} options={drawerScreenOptions} />
       <Screen name="TabBDetails" component={TabBDetails} />
     </Navigator>
   );
 };
-// #endregion
 
-const HomeTab = (): JSX.Element => {
+// Home Tab
+const HomeTab = (): React.JSX.Element => {
   const {Navigator, Screen} = createBottomTabNavigator<HomeTabParamList>();
-
-  const tabNavProps = {
-    screenOptions: ({route}: BottomTabScreenProps<HomeTabParamList>) => ({
-      tabBarActiveTintColor: Colors?.$iconPrimary,
-      tabBarInactiveTintColor: 'gray',
-      headerShown: false,
-      tabBarHideOnKeyboard: true,
-      tabBarIcon: (tabBarIconProps: TabBarIconPropsType) =>
-        RenderTabBarIcon({...tabBarIconProps, route}),
-    }),
-  };
-
   return (
-    <Navigator {...tabNavProps}>
+    <Navigator
+      screenOptions={({route}: BottomTabScreenProps<HomeTabParamList>) => ({
+        tabBarActiveTintColor: Colors.$iconPrimary,
+        tabBarInactiveTintColor: 'gray',
+        headerShown: false,
+        tabBarHideOnKeyboard: true,
+        tabBarIcon: (props: TabBarIconPropsType) =>
+          RenderTabBarIcon({...props, route}),
+      })}>
       <Screen name="Tab A" component={HomeTabAStack} />
       <Screen name="Tab B" component={HomeTabBStack} />
     </Navigator>
   );
 };
-// #endregion
 
-// #region Notification Stack
-const NotificationsStack = (): JSX.Element => {
+// Notifications Stack
+const NotificationsStack = (): React.JSX.Element => {
   const {Navigator, Screen} =
     createNativeStackNavigator<NotificationsStackParamList>();
-
   return (
     <Navigator>
       <Screen
-        name="Notfications"
+        name="NotificationsIndex"
         component={NotificationsScreen}
-        options={initialDrawerScreenProps}
+        options={drawerScreenOptions}
       />
     </Navigator>
   );
 };
-// #endregion
 
-// #region Main(current) Navigator
-const CurrentNavigator = (): JSX.Element => {
+// Current Navigator
+const CurrentNavigator = (): React.JSX.Element => {
   const {Navigator, Screen} = createDrawerNavigator<RootDrawerParamList>();
-
-  const loggedin: boolean = useSelector(
+  const loggedin = useSelector(
     (state: StoreRootState) => state?.user?.loggedin ?? false,
   );
 
@@ -180,31 +156,25 @@ const CurrentNavigator = (): JSX.Element => {
     return <LoginStack />;
   }
 
-  const drawerNavProps = {
-    initialRouteName: 'Home' as keyof RootDrawerParamList,
-    screenOptions: {
-      headerShown: false,
-      swipeEnabled: false,
-      swipeEdgeWidth: 0,
-      drawerActiveBackgroundColor: Colors?.$backgroundPrimaryLight,
-      drawerActiveTintColor: Colors?.$textPrimary,
-    },
-  };
-
   return (
-    <Navigator {...drawerNavProps}>
+    <Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        headerShown: false,
+        swipeEnabled: false,
+        swipeEdgeWidth: 0,
+        drawerActiveBackgroundColor: Colors.$backgroundPrimaryLight,
+        drawerActiveTintColor: Colors.$textPrimary,
+      }}>
       <Screen name="Home" component={HomeTab} />
       <Screen name="Notifications" component={NotificationsStack} />
     </Navigator>
   );
 };
 
-// #endregion
-
-export default () => {
-  const currentColorScheme = useColorScheme();
-  const currentTheme = currentColorScheme === 'dark' ? DarkTheme : DefaultTheme;
-
+// Main App Entry
+export default (): React.JSX.Element => {
+  const currentTheme = useColorScheme() === 'dark' ? DarkTheme : DefaultTheme;
   return (
     <NavigationContainer theme={currentTheme}>
       <CurrentNavigator />

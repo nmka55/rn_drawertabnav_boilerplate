@@ -1,55 +1,45 @@
+import React from 'react';
 import {Picker, PickerModes, TextField} from 'react-native-ui-lib';
+import {useController} from 'react-hook-form';
+import {globalStyles as styles} from '@app/constants';
 import {PickerItemType, PickerPropType} from './types';
 
-import React from 'react';
-import {globalStyles as styles} from '@app/constants';
-import {useController} from 'react-hook-form';
-
-export default (props: PickerPropType): JSX.Element => {
+const CustomPicker = ({
+  name,
+  rules,
+  defaultValue,
+  optionList = [],
+  labelProperty = 'id',
+  ...restOfProps
+}: PickerPropType): React.JSX.Element => {
   const {
-    name,
-    rules,
-    defaultValue,
-    optionList = [],
-    labelProperty = 'id',
-    ...restOfProps
-  } = props;
-
-  const {
-    field,
+    field: {value, onChange},
     fieldState: {error},
   } = useController({name, rules, defaultValue});
 
-  const hasError: boolean = Boolean(error);
-
-  const RenderOptions = () => {
-    return optionList?.map((item: PickerItemType, index: number) => {
-      return (
-        <Picker.Item key={index} value={item?.id} label={item[labelProperty]} />
-      );
-    });
-  };
+  const hasError = Boolean(error);
 
   return (
     <Picker
       {...restOfProps}
-      //Picker props
       mode={PickerModes.SINGLE}
-      topBarProps={{title: props?.placeholder}}
-      // TextField props
-      floatOnFocus={true}
-      floatingPlaceholder={true}
-      label={props?.label ?? props?.placeholder}
+      topBarProps={{title: restOfProps.placeholder}}
+      floatOnFocus
+      floatingPlaceholder
+      label={restOfProps.label ?? restOfProps.placeholder}
       enableErrors={hasError}
       validationMessagePosition={TextField.validationMessagePositions.TOP}
       validationMessage={hasError ? error?.message : undefined}
-      containerStyle={[styles?.textFieldContainer, props?.containerStyle]}
-      fieldStyle={[styles?.textField, props?.fieldStyle]}
-      //Value props
-      onChange={field.onChange}
-      value={field.value}
-      defaultValue={field.value}>
-      {RenderOptions()}
+      containerStyle={[styles.textFieldContainer, restOfProps.containerStyle]}
+      fieldStyle={[styles.textField, restOfProps.fieldStyle]}
+      onChange={onChange}
+      value={value}
+      defaultValue={value}>
+      {optionList.map((item: PickerItemType, index: number) => (
+        <Picker.Item key={index} value={item.id} label={item[labelProperty]} />
+      ))}
     </Picker>
   );
 };
+
+export default CustomPicker;

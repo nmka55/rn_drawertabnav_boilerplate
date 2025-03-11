@@ -4,25 +4,22 @@ import {TextFieldProps} from './types';
 import {globalStyles as styles} from '@app/constants';
 import {useController} from 'react-hook-form';
 
-export default (props: TextFieldProps): JSX.Element => {
+const CustomTextField = ({
+  name,
+  rules,
+  defaultValue,
+  trailingAccessory,
+  showTrailingAccessoryAlways = false,
+  ...restOfProps
+}: TextFieldProps): React.JSX.Element => {
   const {
-    name,
-    rules,
-    defaultValue,
-    trailingAccessory,
-    showTrailingAccessoryAlways = false,
-    ...restOfProps
-  } = props;
-
-  const {
-    field,
+    field: {value, onChange, onBlur},
     fieldState: {error},
   } = useController({name, rules, defaultValue});
 
-  const hasError: boolean = Boolean(error);
-
+  const hasError = Boolean(error);
   const trailingAccessoryElement =
-    field.value?.length > 0 || showTrailingAccessoryAlways
+    value?.length > 0 || showTrailingAccessoryAlways
       ? trailingAccessory
       : undefined;
 
@@ -30,19 +27,21 @@ export default (props: TextFieldProps): JSX.Element => {
     <TextField
       {...restOfProps}
       // TextField Props
-      label={props?.label ?? props?.placeholder}
-      floatOnFocus={true}
-      floatingPlaceholder={true}
-      containerStyle={[styles?.textFieldContainer, props?.containerStyle]}
-      fieldStyle={[styles?.textField, props?.fieldStyle]}
+      label={restOfProps.label ?? restOfProps.placeholder}
+      floatOnFocus
+      floatingPlaceholder
+      containerStyle={[styles.textFieldContainer, restOfProps.containerStyle]}
+      fieldStyle={[styles.textField, restOfProps.fieldStyle]}
       enableErrors={hasError}
       validationMessagePosition={TextField.validationMessagePositions.TOP}
-      validationMessage={hasError ? error?.message : undefined}
+      validationMessage={hasError ? error?.message ?? '' : undefined} // Safeguard for undefined error
       trailingAccessory={trailingAccessoryElement}
-      //Value props
-      onChangeText={field.onChange}
-      value={field.value}
-      onBlur={field.onBlur}
+      // Value Props
+      onChangeText={onChange}
+      value={value}
+      onBlur={onBlur}
     />
   );
 };
+
+export default CustomTextField;

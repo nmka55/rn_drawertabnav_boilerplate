@@ -1,39 +1,48 @@
-import {Button, View} from 'react-native-ui-lib';
-import {useDispatch, useSelector} from 'react-redux';
-
-import {HomeTabAStackParamList} from '@app/navigators/types';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React from 'react';
-import {StoreRootState} from '@app/redux/store';
+import {Button, View} from 'react-native-ui-lib';
 import {StyleSheet} from 'react-native';
-import globalStyles from '@app/constants/globalStyles';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import {userLogout} from '@app/redux/actions';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
-export default function TabA(): JSX.Element {
+import {userLogout} from '@app/redux/actions';
+import {HomeTabAStackParamList} from '@app/navigators/types';
+import {StoreRootState} from '@app/redux/store';
+import globalStyles from '@app/constants/globalStyles';
+
+const TabA = (): React.JSX.Element => {
   const userData = useSelector(
-    (state: StoreRootState) => state?.user?.userData ?? {},
+    (state: StoreRootState) => state.user?.userData ?? {},
   );
 
   const dispatch = useDispatch();
   const navigation =
     useNavigation<NativeStackNavigationProp<HomeTabAStackParamList>>();
 
-  const {username = ''} = userData ?? {};
-
   const onLogoutPress = () => {
     dispatch(userLogout());
   };
 
   return (
-    <View style={styles?.containerBase}>
+    <View style={styles.containerBase}>
       <Button
-        onPress={() => navigation?.navigate('TabADetails')}
-        label={`Hello, ${username}. Go to User Details`}
+        onPress={() => navigation.navigate('TabADetails')}
+        label={`Hello, ${userData.username ?? ''}. Go to User Details`}
       />
-      <Button link marginT-16 onPress={onLogoutPress} label={'Logout'} x />
+      <Button link marginT-16 onPress={onLogoutPress} label="Logout" />
     </View>
   );
-}
+};
 
-const styles: any = StyleSheet.flatten([globalStyles, {}]);
+const styles = StyleSheet.flatten([
+  globalStyles,
+  {
+    containerBase: {
+      padding: 16,
+      flex: 1,
+      justifyContent: 'center',
+    },
+  },
+]) as StyleSheet.NamedStyles<any>;
+
+export default TabA;

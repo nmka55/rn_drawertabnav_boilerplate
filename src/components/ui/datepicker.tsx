@@ -1,44 +1,46 @@
-import {DateTimePicker, TextField} from 'react-native-ui-lib';
-
-import {DatePickerProps} from './types';
 import React from 'react';
-import {globalStyles as styles} from '@app/constants';
+import {DateTimePicker, TextField} from 'react-native-ui-lib';
 import {useColorScheme} from 'react-native';
 import {useController} from 'react-hook-form';
+import {globalStyles as styles} from '@app/constants';
+import {DatePickerProps} from './types';
 
-export default (props: DatePickerProps): JSX.Element => {
-  const {name, rules, defaultValue, ...restOfProps} = props;
-
+const CustomDatePicker = ({
+  name,
+  rules,
+  defaultValue,
+  ...restOfProps
+}: DatePickerProps): React.JSX.Element => {
   const {
-    field,
+    field: {value, onChange},
     fieldState: {error},
   } = useController({name, rules, defaultValue});
 
-  const hasError: boolean = Boolean(error);
-
-  const currentColorScheme: 'dark' | 'light' | undefined =
-    useColorScheme() ?? undefined;
+  const hasError = Boolean(error);
+  const currentColorScheme = useColorScheme() ?? 'light';
 
   return (
     <DateTimePicker
       {...restOfProps}
       themeVariant={currentColorScheme}
-      //Date props
-      is24Hour={true}
+      // Date props
+      is24Hour
       locale="mn"
       minimumDate={new Date(1970, 0)}
-      //TextField props
-      label={props?.label ?? props?.placeholder}
-      floatOnFocus={true}
-      floatingPlaceholder={true}
-      containerStyle={[styles?.textFieldContainer, props?.containerStyle]}
-      fieldStyle={[styles?.textField, props?.fieldStyle]}
+      // TextField props
+      label={restOfProps.label ?? restOfProps.placeholder}
+      floatOnFocus
+      floatingPlaceholder
+      containerStyle={[styles.textFieldContainer, restOfProps.containerStyle]}
+      fieldStyle={[styles.textField, restOfProps.fieldStyle]}
       enableErrors={hasError}
       validationMessagePosition={TextField.validationMessagePositions.TOP}
       validationMessage={hasError ? error?.message : undefined}
-      //Value props
-      onChange={(date: Date) => field.onChange(date?.toISOString() ?? null)}
-      value={field.value ? new Date(field.value) : undefined}
+      // Value props
+      onChange={(date: Date) => onChange(date?.toISOString() ?? null)}
+      value={value ? new Date(value) : undefined}
     />
   );
 };
+
+export default CustomDatePicker;

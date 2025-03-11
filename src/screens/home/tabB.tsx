@@ -6,7 +6,7 @@ import React from 'react';
 import {globalStyles} from '@app/constants';
 import {useNavigation} from '@react-navigation/native';
 
-export default function TabB(): JSX.Element {
+export default function TabB(): React.JSX.Element {
   const navigation =
     useNavigation<NativeStackNavigationProp<HomeTabBStackParamList>>();
 

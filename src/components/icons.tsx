@@ -30,7 +30,7 @@ export const IconSets = {
   AntDesign: 'AntDesign',
 };
 
-const Icons = (props: any): JSX.Element => {
+const Icons = (props: any): React.JSX.Element => {
   const {iconSet, ...otherProps} = props;
   switch (iconSet) {
     case IconSets.Entypo:

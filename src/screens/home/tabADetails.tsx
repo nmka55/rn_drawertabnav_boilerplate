@@ -1,45 +1,42 @@
+import React from 'react';
 import {Button, Text, View} from 'react-native-ui-lib';
+import {StyleSheet} from 'react-native';
 import {FormProvider, useForm} from 'react-hook-form';
+import {useDispatch, useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+
 import {
   RHFCheckbox,
   RHFDatePicker,
   RHFPicker,
   RHFTextField,
 } from '@app/components';
-import {useDispatch, useSelector} from 'react-redux';
-
-import {HomeTabAStackParamList} from '@app/navigators/types';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import React from 'react';
 import {StoreRootState} from '@app/redux/store';
-import {StyleSheet} from 'react-native';
+import {HomeTabAStackParamList} from '@app/navigators/types';
 import {UserDataType} from './types';
 import {constantValues} from '@app/constants';
 import globalStyles from '@app/constants/globalStyles';
-import {useNavigation} from '@react-navigation/native';
 import {userLogin} from '@app/redux/actions';
 
-export default function TabADetails(): JSX.Element {
+const TabADetails = (): React.JSX.Element => {
   const userData = useSelector(
     (state: StoreRootState) => state?.user?.userData ?? {},
   );
 
   const dispatch = useDispatch();
-
   const navigation =
     useNavigation<NativeStackNavigationProp<HomeTabAStackParamList>>();
 
-  const form = useForm<UserDataType>({
-    defaultValues: userData,
-  });
+  const form = useForm<UserDataType>({defaultValues: userData});
 
   const onSavePress = (formData: UserDataType) => {
     dispatch(userLogin(formData));
-    navigation?.goBack();
+    navigation.goBack();
   };
 
   return (
-    <View style={styles?.containerBase}>
+    <View style={styles.containerBase}>
       <Text marginB-16>User Details</Text>
       <FormProvider {...form}>
         <RHFTextField
@@ -61,16 +58,26 @@ export default function TabADetails(): JSX.Element {
         <RHFPicker
           name="gender"
           placeholder="Gender"
-          optionList={constantValues?.genderOptionList}
+          optionList={constantValues.genderOptionList}
           labelProperty="label"
           rules={{required: 'Select gender please!'}}
         />
         <RHFCheckbox name="hasDriversLicense" label="Has Drivers License" />
       </FormProvider>
-
-      <Button onPress={() => form?.handleSubmit(onSavePress)()} label="Save" />
+      <Button onPress={form.handleSubmit(onSavePress)} label="Save" />
     </View>
   );
-}
+};
 
-const styles: any = StyleSheet.flatten([globalStyles, {}]);
+const styles = StyleSheet.flatten([
+  globalStyles,
+  {
+    containerBase: {
+      padding: 16,
+      flex: 1,
+      justifyContent: 'center',
+    },
+  },
+]) as StyleSheet.NamedStyles<any>;
+
+export default TabADetails;

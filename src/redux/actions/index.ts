@@ -1,7 +1,5 @@
-import {USER_LOGIN, USER_LOGOUT} from '@app/redux/constants';
-
-import {UserDataType} from '@app/screens/home/types';
 import {createAction} from '@reduxjs/toolkit';
+import {UserDataType} from '@app/screens/home/types';
 
-export const userLogin = createAction<Partial<UserDataType>>(USER_LOGIN);
-export const userLogout = createAction(USER_LOGOUT);
+export const userLogin = createAction<Partial<UserDataType>>('user/login');
+export const userLogout = createAction('user/logout');

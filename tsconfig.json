@@ -1,8 +1,8 @@
 {
   "extends": "@tsconfig/react-native/tsconfig.json",
-  //For editor autocompletion
   "compilerOptions": {
-    "jsx": "react",
+    "jsx": "react-native",
+    "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
       "@app/*": ["src/*"],
