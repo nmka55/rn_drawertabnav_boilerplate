@@ -4,8 +4,8 @@ import {Button, Colors, View} from 'react-native-ui-lib';
 import {FormProvider, useForm} from 'react-hook-form';
 import {useDispatch} from 'react-redux';
 import {Icons, RHFTextField} from '@app/components';
-import globalStyles from '@app/constants/globalStyles';
-import {UserDataType} from '../home/types';
+import {GlobalStyles} from '@app/constants';
+import {UserDataType} from '@screens/home/types';
 import {userLogin} from '@app/redux/actions';
 
 const Login = (): React.JSX.Element => {
@@ -61,7 +61,7 @@ const Login = (): React.JSX.Element => {
 };
 
 const styles = StyleSheet.flatten([
-  globalStyles,
+  GlobalStyles,
   StyleSheet.create({
     inputLeftIcon: {
       marginRight: 8,

@@ -4,10 +4,7 @@ import {Colors} from 'react-native-ui-lib';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useSelector} from 'react-redux';
 import {StoreRootState} from '@app/redux/store';
-import {
-  createBottomTabNavigator,
-  BottomTabScreenProps,
-} from '@react-navigation/bottom-tabs';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
   createDrawerNavigator,
   DrawerNavigationProp,
@@ -30,15 +27,14 @@ import {
   LoginStackParamList,
   NotificationsStackParamList,
   RootDrawerParamList,
-  TabBarIconPropsType,
 } from './types';
 
-import Login from '@app/screens/login/login';
-import NotificationsScreen from '@app/screens/notificationsScreen/notificationScreen';
-import TabA from '@app/screens/home/tabA';
-import TabADetails from '@app/screens/home/tabADetails';
-import TabB from '@app/screens/home/tabB';
-import TabBDetails from '@app/screens/home/tabBDetails';
+import Login from '@app/screens/login/Login';
+import NotificationsScreen from '@app/screens/NotificationsScreen/NotificationScreen';
+import TabA from '@app/screens/home/TabA';
+import TabADetails from '@app/screens/home/TabADetails';
+import TabB from '@app/screens/home/TabB';
+import TabBDetails from '@app/screens/home/TabBDetails';
 
 // Shared components and props
 const DrawerButton = (): React.JSX.Element => {
@@ -59,19 +55,17 @@ const RenderTabBarIcon = ({
   focused,
   color,
   size,
-  route,
-}: TabBarIconPropsType): React.JSX.Element => {
-  if (!route) {
-    // Handle undefined route case (optional)
-    return <Icon name="alert-circle-outline" size={size} color={color} />;
-  }
-
+}: {
+  focused: boolean;
+  color: string;
+  size: number;
+}): React.JSX.Element => {
   const iconMap: Record<string, [string, string]> = {
     'Tab A': ['home-circle-outline', 'home-circle'],
     'Tab B': ['account-circle-outline', 'account-circle'],
   };
 
-  const [defaultIcon, focusedIcon] = iconMap[route.name] || ['', ''];
+  const [defaultIcon, focusedIcon] = iconMap['Tab A'] || ['', ''];
   const iconName = focused ? focusedIcon : defaultIcon;
 
   return <Icon name={iconName} size={size} color={color} />;
@@ -111,18 +105,19 @@ const HomeTabBStack = (): React.JSX.Element => {
   );
 };
 
-// Home Tab
+// Home Tab};
+
 const HomeTab = (): React.JSX.Element => {
   const {Navigator, Screen} = createBottomTabNavigator<HomeTabParamList>();
   return (
     <Navigator
-      screenOptions={({route}: BottomTabScreenProps<HomeTabParamList>) => ({
+      screenOptions={() => ({
         tabBarActiveTintColor: Colors.$iconPrimary,
         tabBarInactiveTintColor: 'gray',
         headerShown: false,
         tabBarHideOnKeyboard: true,
-        tabBarIcon: (props: TabBarIconPropsType) =>
-          RenderTabBarIcon({...props, route}),
+        tabBarIcon: ({focused, color, size}) =>
+          RenderTabBarIcon({focused, color, size}),
       })}>
       <Screen name="Tab A" component={HomeTabAStack} />
       <Screen name="Tab B" component={HomeTabBStack} />

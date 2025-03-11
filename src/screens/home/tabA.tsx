@@ -8,7 +8,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {userLogout} from '@app/redux/actions';
 import {HomeTabAStackParamList} from '@app/navigators/types';
 import {StoreRootState} from '@app/redux/store';
-import globalStyles from '@app/constants/globalStyles';
+import {GlobalStyles} from '@app/constants';
 
 const TabA = (): React.JSX.Element => {
   const userData = useSelector(
@@ -35,7 +35,7 @@ const TabA = (): React.JSX.Element => {
 };
 
 const styles = StyleSheet.flatten([
-  globalStyles,
+  GlobalStyles,
   {
     containerBase: {
       padding: 16,

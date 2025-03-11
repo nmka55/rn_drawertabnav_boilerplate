@@ -10,7 +10,7 @@ export type LoginStackParamList = {
 };
 
 export type NotificationsStackParamList = {
-  Notifications: undefined;
+  NotificationsIndex: undefined;
 };
 
 export type HomeTabAStackParamList = {

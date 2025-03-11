@@ -15,8 +15,8 @@ import {
 import {StoreRootState} from '@app/redux/store';
 import {HomeTabAStackParamList} from '@app/navigators/types';
 import {UserDataType} from './types';
-import {constantValues} from '@app/constants';
-import globalStyles from '@app/constants/globalStyles';
+import {ConstantValues} from '@app/constants';
+import {GlobalStyles} from '@app/constants';
 import {userLogin} from '@app/redux/actions';
 
 const TabADetails = (): React.JSX.Element => {
@@ -58,7 +58,7 @@ const TabADetails = (): React.JSX.Element => {
         <RHFPicker
           name="gender"
           placeholder="Gender"
-          optionList={constantValues.genderOptionList}
+          optionList={ConstantValues?.genderOptionList}
           labelProperty="label"
           rules={{required: 'Select gender please!'}}
         />
@@ -70,7 +70,7 @@ const TabADetails = (): React.JSX.Element => {
 };
 
 const styles = StyleSheet.flatten([
-  globalStyles,
+  GlobalStyles,
   {
     containerBase: {
       padding: 16,

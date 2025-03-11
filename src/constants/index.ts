@@ -1,3 +1,3 @@
-export {default as constantValues} from './values';
-export {default as theme} from './theme';
-export {default as globalStyles} from './globalStyles';
+export {default as ConstantValues} from '@constants/Values';
+export {default as Theme} from '@constants/Theme';
+export {default as GlobalStyles} from '@constants/GlobalStyles';

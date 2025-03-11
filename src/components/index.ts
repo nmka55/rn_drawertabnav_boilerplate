@@ -1,6 +1,6 @@
 import * as Helper from '@components/Helper';
 
-import Icons from '@components/icons';
+import Icons from '@app/components/Icons';
 import RHFCheckbox from '@components/ui/Checkbox';
 import RHFDatePicker from '@components/ui/DatePicker';
 import RHFPicker from '@components/ui/Picker';
