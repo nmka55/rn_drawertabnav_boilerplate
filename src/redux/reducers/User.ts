@@ -1,6 +1,7 @@
-import {createReducer} from '@reduxjs/toolkit';
 import {userLogin, userLogout} from '@app/redux/actions';
-import {UserDataType} from '@app/screens/Home/types';
+
+import {UserDataType} from '@app/screens/home/types';
+import {createReducer} from '@reduxjs/toolkit';
 
 type InitialStateType = {
   loggedin: boolean;

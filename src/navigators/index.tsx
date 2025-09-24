@@ -23,14 +23,14 @@ import {
 import { Pressable, useColorScheme } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Login from '@app/screens/Login/Login';
-import NotificationsScreen from '@app/screens/NotificationsScreen/NotificationScreen';
+import Login from '@app/screens/login/Login';
+import NotificationsScreen from '@app/screens/notificationsScreen/NotificationScreen';
 import React from 'react';
 import { StoreRootState } from '@app/redux/store';
-import TabA from '@app/screens/Home/TabA';
-import TabADetails from '@app/screens/Home/TabADetails';
-import TabB from '@app/screens/Home/TabB';
-import TabBDetails from '@app/screens/Home/TabBDetails';
+import TabA from '@app/screens/home/TabA';
+import TabADetails from '@app/screens/home/TabADetails';
+import TabB from '@app/screens/home/TabB';
+import TabBDetails from '@app/screens/home/TabBDetails';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useSelector } from 'react-redux';
 import useTheme from '@app/constants/Theme';
