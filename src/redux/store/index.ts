@@ -9,6 +9,7 @@ import {
   persistReducer,
   persistStore,
 } from 'redux-persist';
+
 import {MMKV} from 'react-native-mmkv';
 import {configureStore} from '@reduxjs/toolkit';
 import rootReducer from '@app/redux/reducers';
@@ -17,7 +18,7 @@ import rootReducer from '@app/redux/reducers';
 const storage = new MMKV();
 const reduxStorage: Storage = {
   setItem: (key, value) => Promise.resolve(storage.set(key, value)),
-  getItem: key => Promise.resolve(storage.getString(key)),
+  getItem: key => Promise.resolve(storage.getString(key) ?? null),
   removeItem: key => Promise.resolve(storage.delete(key)),
 };
 
