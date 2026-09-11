@@ -1,12 +1,11 @@
 module.exports = {
-  preset: 'react-native',
-  transform: { '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest' },
+  preset: '@react-native/jest-preset',
+  setupFilesAfterEnv: ['<rootDir>/src/test/setup.ts'],
   moduleNameMapper: {
     '^@app/(.*)$': '<rootDir>/src/$1',
-    '^@components/(.*)$': '<rootDir>/src/components/$1',
-    '^@constants/(.*)$': '<rootDir>/src/constants/$1',
-    '^@navigators/(.*)$': '<rootDir>/src/navigators/$1',
-    '^@redux/(.*)$': '<rootDir>/src/redux/$1',
-    '^@screens/(.*)$': '<rootDir>/src/screens/$1',
   },
+  // Redux Toolkit currently exposes ESM through Immer; transform it like RN packages.
+  transformIgnorePatterns: [
+    'node_modules/(?!((@)?react-native|@react-native(-community)?|@reduxjs|redux|react-redux|immer)/)',
+  ],
 };

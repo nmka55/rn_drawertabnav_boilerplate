@@ -1,19 +1,25 @@
-import React from 'react';
-import { persistor, store } from '@redux/store';
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ *
+ * @format
+ */
 
-import { PersistGate } from 'redux-persist/integration/react';
-import { Provider } from 'react-redux';
-import RootContainer from '@app/navigators';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { StatusBar, StyleSheet, useColorScheme } from 'react-native';
+import { AppProviders } from '@app/app/AppProviders';
 
 export default function App(): React.JSX.Element {
+  const isDark = useColorScheme() === 'dark';
+
   return (
-    <GestureHandlerRootView>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <RootContainer />
-        </PersistGate>
-      </Provider>
-    </GestureHandlerRootView>
+    <>
+      <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
+      <GestureHandlerRootView style={styles.root}>
+        <AppProviders />
+      </GestureHandlerRootView>
+    </>
   );
 }
+
+const styles = StyleSheet.create({ root: { flex: 1 } });

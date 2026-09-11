@@ -3,16 +3,10 @@
   "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["**/node_modules", "**/Pods"],
   "compilerOptions": {
-    "jsx": "react-native",
-    "esModuleInterop": true,
     "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
     "paths": {
-      "@app/*": ["src/*"],
-      "@components/*": ["src/components/*"],
-      "@constants/*": ["src/constants/*"],
-      "@navigators/*": ["src/navigators/*"],
-      "@redux/*": ["src/redux/*"],
-      "@screens/*": ["src/screens/*"]
+      "@app/*": ["src/*"]
     }
   }
 }

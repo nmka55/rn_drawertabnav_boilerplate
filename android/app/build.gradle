@@ -19,9 +19,9 @@ react {
 
     /* Variants */
     //   The list of variants to that are debuggable. For those we're going to
-    //   skip the bundling of the JS bundle and the assets. By default is just 'debug'.
+    //   skip the bundling of the JS bundle and the assets. Default is "debug", "debugOptimized".
     //   If you add flavors like lite, prod, etc. you'll have to list your debuggableVariants.
-    // debuggableVariants = ["liteDebug", "prodDebug"]
+    // debuggableVariants = ["liteDebug", "liteDebugOptimized", "prodDebug", "prodDebugOptimized"]
 
     /* Bundling */
     //   A list containing the node command and its flags. Default is just 'node'.
@@ -72,6 +72,14 @@ def enableProguardInReleaseBuilds = false
  */
 def jscFlavor = 'io.github.react-native-community:jsc-android:2026004.+'
 
+// Optional local override for Windows workspaces whose absolute path is long.
+// It is intentionally unset in source control so ordinary Android builds keep
+// the React Native template default. See README for the Windows-only command.
+def cmakeBuildStagingDirectory = System.getenv("RN_CMAKE_STAGING_DIRECTORY")
+def gestureHandlerCmakeSourceDirectory = System.getenv("RN_GESTURE_HANDLER_CMAKE_SOURCE_DIRECTORY")
+def safeAreaCmakeSourceDirectory = System.getenv("RN_SAFE_AREA_CMAKE_SOURCE_DIRECTORY")
+def screensCmakeSourceDirectory = System.getenv("RN_SCREENS_CMAKE_SOURCE_DIRECTORY")
+
 android {
     ndkVersion rootProject.ext.ndkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -84,6 +92,16 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+
+        // Windows has a 260-character file-path limit in Ninja. RN codegen can
+        // produce deeply nested C++ paths when several native libraries are
+        // autolinked. A shorter CMake object-path limit makes CMake hash those
+        // intermediate directories instead of failing the Android build.
+        externalNativeBuild {
+            cmake {
+                arguments "-DCMAKE_OBJECT_PATH_MAX=128"
+            }
+        }
     }
     signingConfigs {
         debug {
@@ -102,7 +120,14 @@ android {
             // see https://reactnative.dev/docs/signed-apk-android.
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            if (cmakeBuildStagingDirectory != null) {
+                buildStagingDirectory cmakeBuildStagingDirectory
+            }
         }
     }
 }
@@ -115,5 +140,33 @@ dependencies {
         implementation("com.facebook.react:hermes-android")
     } else {
         implementation jscFlavor
+    }
+}
+
+// CMake/Ninja on Windows still enforces MAX_PATH for some generated object
+// names. When a project lives in a long directory, an opt-in short drive
+// mapping for New Architecture module sources can be supplied for a local
+// build. The generated autolinking file is rewritten after RN creates it and
+// before CMake reads it. No dependency source is modified.
+tasks.matching { it.name == "generateAutolinkingNewArchitectureFiles" }.configureEach {
+    doLast {
+        def autolinkingCmake = file("$buildDir/generated/autolinking/src/main/jni/Android-autolinking.cmake")
+        def sourceOverrides = [
+            ["react-native-gesture-handler/android", gestureHandlerCmakeSourceDirectory],
+            ["react-native-safe-area-context/android/src/main/jni", safeAreaCmakeSourceDirectory],
+            ["react-native-screens/android/src/main/jni", screensCmakeSourceDirectory],
+        ]
+
+        sourceOverrides.each { relativeSource, replacementSource ->
+            if (replacementSource != null) {
+                def originalSource = new File(rootProject.projectDir, "../node_modules/$relativeSource")
+                    .canonicalPath
+                    .replace('\\', '/')
+                autolinkingCmake.text = autolinkingCmake.text.replace(
+                    originalSource,
+                    replacementSource.replace('\\', '/').replaceAll('/+$', ''),
+                )
+            }
+        }
     }
 }
